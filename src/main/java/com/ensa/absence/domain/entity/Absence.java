@@ -32,7 +32,6 @@ public class Absence {
 	/**
 	 * Etudiant sujet de l'absence
 	 */
-	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Etudiant etudiant;
 	/**
