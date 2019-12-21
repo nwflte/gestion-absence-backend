@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.payload.EtudiantResponse;
-import com.ensa.absence.payload.GroupeResponse;
 import com.ensa.absence.service.GroupeService;
 
 @RestController

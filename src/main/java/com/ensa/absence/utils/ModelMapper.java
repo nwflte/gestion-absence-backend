@@ -1,11 +1,8 @@
 package com.ensa.absence.utils;
 
-import java.util.Set;
-
 import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.domain.entity.Groupe;
-import com.ensa.absence.domain.entity.GroupeCours;
 import com.ensa.absence.domain.entity.GroupeTD;
 import com.ensa.absence.domain.entity.GroupeTP;
 import com.ensa.absence.payload.EtudiantResponse;

@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ensa.absence.domain.entity.Departement;
 import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
-import com.ensa.absence.domain.entity.GroupeCours;
 import com.ensa.absence.domain.entity.GroupeTP;
 import com.ensa.absence.domain.entity.Professeur;
 import com.ensa.absence.domain.entity.User;

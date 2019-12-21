@@ -60,7 +60,6 @@ public class DbInitializer implements CommandLineRunner {
 
 		List<Groupe> groupes = Arrays.asList(gc1, gtd1, gtd2, gtp1, gtp2);
 		
-		Random rnd = new Random();
 		for (int i = 0; i < 14; i++) {
 			User user = new User(generateRandString(), generateRandString());
 			Etudiant etudiant = new Etudiant(generateRandString(), generateRandString(), "", user, fil1);

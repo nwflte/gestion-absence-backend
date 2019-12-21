@@ -3,8 +3,6 @@ package com.ensa.absence.domain.entity;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 
 import com.ensa.absence.domain.enums.GroupeCategorie;
 

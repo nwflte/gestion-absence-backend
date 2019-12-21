@@ -1,8 +1,5 @@
 package com.ensa.absence.payload;
 
-import com.ensa.absence.domain.entity.User;
-import com.ensa.absence.domain.enums.GroupeCategorie;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
