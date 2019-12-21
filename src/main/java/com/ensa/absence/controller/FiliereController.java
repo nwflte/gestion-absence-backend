@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.payload.FiliereResponse;
 import com.ensa.absence.payload.GroupeResponse;
-import com.ensa.absence.projection.FiliereGroupesProjection;
 import com.ensa.absence.service.FiliereService;
 import com.ensa.absence.service.GroupeService;
 

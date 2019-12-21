@@ -1,4 +1,4 @@
-package com.ensa.absence.payload;
+package com.ensa.absence.utils;
 
 import java.util.Set;
 
@@ -8,6 +8,9 @@ import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.domain.entity.GroupeCours;
 import com.ensa.absence.domain.entity.GroupeTD;
 import com.ensa.absence.domain.entity.GroupeTP;
+import com.ensa.absence.payload.EtudiantResponse;
+import com.ensa.absence.payload.FiliereResponse;
+import com.ensa.absence.payload.GroupeResponse;
 
 public class ModelMapper {
 

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.payload.FiliereResponse;
-import com.ensa.absence.payload.ModelMapper;
 import com.ensa.absence.repository.FiliereRepository;
 import com.ensa.absence.repository.GroupeRepository;
 import com.ensa.absence.service.FiliereService;
+import com.ensa.absence.utils.ModelMapper;
 
 @Service
 public class FiliereServiceImpl implements FiliereService {
