@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.ensa.absence.domain.audit.ResponsableDateAudit;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Etudiant {
+public class Etudiant extends ResponsableDateAudit {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -62,6 +64,16 @@ public class Etudiant {
 	private Set<Groupe> groupes = new HashSet<>();
 	
 	private boolean archived;
+	
+	public Etudiant(String nom, String prenom, String imagePath, User user, Filiere filiere) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.imagePath = imagePath;
+		this.user = user;
+		this.filiere = filiere;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

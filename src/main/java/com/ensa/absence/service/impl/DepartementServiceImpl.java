@@ -1,5 +1,6 @@
 package com.ensa.absence.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class DepartementServiceImpl implements DepartementService {
 	public Departement archiverDepartement(Departement departement) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Departement> getAllDepartements() {
+		return departementRepository.findAll();
 	}
 
 }

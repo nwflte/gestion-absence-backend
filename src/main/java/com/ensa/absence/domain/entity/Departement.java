@@ -13,6 +13,7 @@ import lombok.Setter;
 
 /**
  * Class representant un département
+ * 
  * @author naouf
  *
  */
@@ -21,20 +22,27 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Departement {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	/**
 	 * Nom du département
 	 */
 	@Column(nullable = false)
 	private String nom;
-	
+
 	/**
 	 * Professeur chef du département
 	 */
 	@OneToOne
 	private Professeur chefDeDepartement;
+
+	public Departement(String nom, Professeur chefDeDepartement) {
+		super();
+		this.nom = nom;
+		this.chefDeDepartement = chefDeDepartement;
+	}
+	
+	
 }

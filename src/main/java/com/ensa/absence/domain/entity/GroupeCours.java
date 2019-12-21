@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import javax.persistence.Entity;
 
+import com.ensa.absence.domain.enums.GroupeCategorie;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +23,7 @@ import lombok.Setter;
 public class GroupeCours extends Groupe {
 	public GroupeCours(Filiere filiere, Calendar now) {
 		super(filiere, now);
+		categorie = GroupeCategorie.COURS;
 	}
 
 }

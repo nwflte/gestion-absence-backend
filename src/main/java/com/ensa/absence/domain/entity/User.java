@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.ensa.absence.domain.audit.ResponsableDateAudit;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User extends ResponsableDateAudit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -37,4 +39,11 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles = new HashSet<>();
 
+	public User(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+	
+	
 }

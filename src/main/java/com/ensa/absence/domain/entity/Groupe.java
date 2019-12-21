@@ -15,6 +15,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.ensa.absence.domain.enums.GroupeCategorie;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,13 +44,16 @@ public abstract class Groupe {
 	 */
 	@ManyToOne
 	protected Filiere filiere;
-
+	
+	protected GroupeCategorie categorie;
 	/**
-	 * L'annee universitaire (Seulement l'année du deuxième semestre) Exemple: Si
-	 * 2019/2020- Alors l'année est
+	 * L'annee universitaire du premier semestre
 	 */
 	@Column(nullable = false)
 	protected int semestreN1;
+	/**
+	 * L'annee universitaire du deuxieme semestre
+	 */
 	@Column(nullable = false)
 	protected int semestreN2;
 
@@ -56,7 +61,7 @@ public abstract class Groupe {
 	 * Les étudiants du groupe
 	 */
 	@ManyToMany(cascade = { CascadeType.MERGE })
-	protected Set<Etudiant> etudiants = new HashSet<>();
+	protected Set<Etudiant> etudiants = new HashSet<>(0);
 
 	public Groupe(Filiere filiere, Calendar now) {
 		this.filiere = filiere;
