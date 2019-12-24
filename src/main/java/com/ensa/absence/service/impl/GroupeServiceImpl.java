@@ -48,4 +48,9 @@ public class GroupeServiceImpl implements GroupeService {
 		return groupe.getEtudiants().stream().map(etudiant -> ModelMapper.mapEtudiantToEtudiantResponse(etudiant)).collect(Collectors.toList());
 	}
 
+	@Override
+	public Groupe saveGroupe(Groupe groupeCours) {
+		return groupeRepository.save(groupeCours);
+	}
+
 }

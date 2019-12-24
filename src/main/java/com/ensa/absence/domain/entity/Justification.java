@@ -14,7 +14,6 @@ import lombok.Setter;
 
 /**
  * Class qui represente la justification d'une absence
- * @author naouf
  *
  */
 @Entity
@@ -27,6 +26,8 @@ public class Justification {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	private String description;
+	
 	/**
 	 * L'absence sujet de la justification (Définit l'etudiant, la seance, celui qui l'a marqué...)
 	 */
@@ -34,8 +35,8 @@ public class Justification {
 	private Absence absence;
 	
 	/**
-	 * Le responsable (le professeur ou un respo scolarite) qui a accepté la justification
+	 * Le responsable qui a ajouté la justification
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Responsable responsable;
+	private ResponsableScolarite responsable;
 }

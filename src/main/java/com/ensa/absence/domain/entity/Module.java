@@ -19,7 +19,6 @@ import lombok.Setter;
 
 /**
  * Class representant un module
- * @author naouf
  *
  */
 @Entity

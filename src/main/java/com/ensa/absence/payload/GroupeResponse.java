@@ -23,12 +23,13 @@ public class GroupeResponse {
 	 @JsonInclude(JsonInclude.Include.NON_NULL)
 	private Integer numero;
 	
-	public GroupeResponse(Long id, GroupeCategorie categorie, int semestreN1, int semestreN2) {
+	public GroupeResponse(Long id, GroupeCategorie categorie, int semestreN1, int semestreN2, int numero) {
 		super();
 		this.id = id;
 		this.categorie = categorie;
 		this.semestreN1 = semestreN1;
 		this.semestreN2 = semestreN2;
+		this.numero = numero;
 	}
 	
 	

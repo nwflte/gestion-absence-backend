@@ -4,8 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,13 +26,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Professeur extends Responsable {
-
+public class Professeur {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@Column(nullable = false)
+	private String nom;
+	@Column(nullable = false)
+	private String prenom;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private User user;
+	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Module> modules = new HashSet<>();
 	
 	public Professeur(String nom, String prenom, User user) {
-		super(nom, prenom, user);
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.user = user;
 	}
 	
 	public void addModule(Module module) {
@@ -53,6 +73,8 @@ public class Professeur extends Responsable {
 	public int hashCode() {
 		return 33;
 	}
+
+	
 
 	
 }

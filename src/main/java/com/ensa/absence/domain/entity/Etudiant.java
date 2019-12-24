@@ -22,8 +22,6 @@ import lombok.Setter;
 
 /**
  * Class representant un etudiant
- * 
- * @author naouf
  *
  */
 @Entity

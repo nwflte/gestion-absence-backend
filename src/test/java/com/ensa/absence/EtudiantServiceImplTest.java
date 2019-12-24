@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ensa.absence.domain.entity.Departement;
 import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
-import com.ensa.absence.domain.entity.GroupeTP;
+import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.domain.entity.Professeur;
 import com.ensa.absence.domain.entity.User;
 import com.ensa.absence.service.DepartementService;
 import com.ensa.absence.service.EtudiantService;
 import com.ensa.absence.service.FiliereService;
-import com.ensa.absence.service.GroupeCoursService;
+import com.ensa.absence.service.GroupeService;
 import com.ensa.absence.service.ProfesseurService;
 
 @RunWith(SpringRunner.class)
@@ -43,7 +43,7 @@ public class EtudiantServiceImplTest {
 	private FiliereService filiereService;
 	
 	@Autowired
-	private GroupeCoursService groupeCoursService;
+	private GroupeService groupeCoursService;
 	
 	Etudiant etudiant;
 	Filiere filiere;
@@ -109,7 +109,7 @@ public class EtudiantServiceImplTest {
 		assertThat(etudiant.getFiliere()).isNull();
 		etudiantService.addEtudiantToFiliere(etudiant, filiere);
 		assertThat(etudiant.getFiliere().getNom()).isEqualTo("Genie Logiciel");
-		GroupeTP groupeTP = new GroupeTP();
+		Groupe groupeTP = new Groupe();
 		groupeTP.setFiliere(filiere);
 		groupeTP.setNumero(4);
 		groupeTP.setSemestreN1(2019);

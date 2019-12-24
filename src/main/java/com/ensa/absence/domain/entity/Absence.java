@@ -15,7 +15,6 @@ import lombok.Setter;
 /**
  * Classe representant une absence.
  * 
- * @author naouf
  *
  */
 @Entity
@@ -39,12 +38,10 @@ public class Absence {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Seance seance;
-	/**
-	 * Le responsable qui a enregistrer l'absence dans le systeme (Professeur ou un
-	 * respo scolarite)
-	 */
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	private Responsable responsable;
+
+	
+	private boolean isJustifie;
+	
 	/**
 	 * La justification de l'absence. prend null s'il aucune n'est fournie.
 	 */

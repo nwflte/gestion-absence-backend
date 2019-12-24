@@ -8,14 +8,19 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.ensa.absence.domain.entity.Responsable;
-import com.ensa.absence.repository.ResponsableRepository;
+import com.ensa.absence.domain.entity.ResponsableScolarite;
+import com.ensa.absence.domain.entity.User;
+import com.ensa.absence.repository.ProfesseurRepository;
+import com.ensa.absence.repository.ResponsableScolariteRepository;
 import com.ensa.absence.repository.UserRepository;
 
 public class SpringSecurityAuditAwareImpl implements AuditorAware<Long> {
 
 	@Autowired
-	private ResponsableRepository responsableRepository;
+	private ResponsableScolariteRepository responsableRepository;
+	
+	@Autowired
+	private ProfesseurRepository professeurRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -30,8 +35,12 @@ public class SpringSecurityAuditAwareImpl implements AuditorAware<Long> {
 		}
 
 		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
-		Responsable responsable = responsableRepository.getByUser(userRepository.getOne(userPrincipal.getId()));
-		return Optional.ofNullable(responsable.getId());
+		
+		User user = userRepository.findById(userPrincipal.getId()).get();
+		Optional<ResponsableScolarite> responsable = responsableRepository.findByUser_Id(userPrincipal.getId());
+		if(responsable.isPresent())
+			return Optional.ofNullable(responsable.get().getId());
+		
+		return Optional.ofNullable(professeurRepository.findByUser_Id(userPrincipal.getId()).get().getId());		
 	}
 }

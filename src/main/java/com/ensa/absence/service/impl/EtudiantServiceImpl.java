@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.domain.entity.Groupe;
-import com.ensa.absence.domain.entity.GroupeCours;
+import com.ensa.absence.domain.enums.GroupeCategorie;
 import com.ensa.absence.repository.EtudiantRepository;
 import com.ensa.absence.service.EtudiantService;
-import com.ensa.absence.service.GroupeCoursService;
+import com.ensa.absence.service.GroupeService;
 
 @Service
 public class EtudiantServiceImpl implements EtudiantService {
@@ -21,7 +21,7 @@ public class EtudiantServiceImpl implements EtudiantService {
 	private EtudiantRepository etudiantRepository;
 
 	@Autowired
-	private GroupeCoursService groupeCoursService;
+	private GroupeService groupeService;
 
 	@Override
 	public Optional<Etudiant> getEtudiantById(Long id) {
@@ -56,9 +56,9 @@ public class EtudiantServiceImpl implements EtudiantService {
 		if (etudiant.getFiliere() != null && etudiant.getFiliere().equals(filiere))
 			return;
 		etudiant.setFiliere(filiere);
-		GroupeCours groupeCours = new GroupeCours(filiere, Calendar.getInstance());
+		Groupe groupeCours = new Groupe(filiere, GroupeCategorie.COURS, 0, Calendar.getInstance());
 		groupeCours.addEtudiant(etudiant);
-		groupeCoursService.saveGroupeCours(groupeCours);
+		groupeService.saveGroupe(groupeCours);
 		// etudiantRepository.save(etudiant);
 	}
 

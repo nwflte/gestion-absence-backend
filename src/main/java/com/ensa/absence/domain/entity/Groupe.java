@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -25,47 +23,50 @@ import lombok.Setter;
  * Class abstraite representant un groupe d'etudiant qui peut assiter à une
  * séance donnée Peut etre: Groupe de TD, de Cours ou de TP.
  * 
- * @author naouf
  *
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Groupe {
+public class Groupe {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long id;
+	private Long id;
 
 	/**
 	 * La filière du groupe
 	 */
 	@ManyToOne
-	protected Filiere filiere;
+	private Filiere filiere;
 	
-	protected GroupeCategorie categorie;
+	private GroupeCategorie categorie;
+	
+	private int numero;
+	
 	/**
 	 * L'annee universitaire du premier semestre
 	 */
 	@Column(nullable = false)
-	protected int semestreN1;
+	private int semestreN1;
 	/**
 	 * L'annee universitaire du deuxieme semestre
 	 */
 	@Column(nullable = false)
-	protected int semestreN2;
+	private int semestreN2;
 
 	/**
 	 * Les étudiants du groupe
 	 */
 	@ManyToMany(cascade = { CascadeType.MERGE })
-	protected Set<Etudiant> etudiants = new HashSet<>(0);
+	private Set<Etudiant> etudiants = new HashSet<>(0);
 
-	public Groupe(Filiere filiere, Calendar now) {
+	public Groupe(Filiere filiere, GroupeCategorie categorie, int numero, Calendar now) {
 		this.filiere = filiere;
-		this.etudiants = new HashSet<>();
+		this.categorie = categorie;
+		this.numero = numero;
+		
 		int month = now.get(Calendar.MONTH) + 1;
 		if (month >= 1 && month <= 7) {
 			semestreN1 = now.get(Calendar.YEAR) - 1;

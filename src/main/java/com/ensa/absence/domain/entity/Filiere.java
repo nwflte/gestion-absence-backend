@@ -17,7 +17,6 @@ import lombok.Setter;
 
 /**
  * Classe representant une filière 
- * @author naouf
  *
  */
 @Entity

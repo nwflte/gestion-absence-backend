@@ -14,7 +14,6 @@ import lombok.Setter;
 /**
  * Class representant un département
  * 
- * @author naouf
  *
  */
 @Entity

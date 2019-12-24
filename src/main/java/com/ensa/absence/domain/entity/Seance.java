@@ -19,7 +19,6 @@ import lombok.Setter;
 
 /**
  * Class representant une séance (de cours, de TP ou de TD)
- * @author naouf
  *
  */
 @Entity
