@@ -50,6 +50,12 @@ public class Module {
 	@ManyToMany(mappedBy = "modules")
 	private Set<Professeur> professeurs = new HashSet<>();
 	
+	public Module(String nom, Filiere filiere) {
+		super();
+		this.nom = nom;
+		this.filiere = filiere;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -63,4 +69,6 @@ public class Module {
 	public int hashCode() {
 		return Objects.hash(nom);
 	}
+
+	
 }

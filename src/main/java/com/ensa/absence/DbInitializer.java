@@ -17,11 +17,15 @@ import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.domain.entity.GroupeCours;
 import com.ensa.absence.domain.entity.GroupeTD;
 import com.ensa.absence.domain.entity.GroupeTP;
+import com.ensa.absence.domain.entity.Module;
+import com.ensa.absence.domain.entity.Professeur;
+import com.ensa.absence.domain.entity.Seance;
 import com.ensa.absence.domain.entity.User;
 import com.ensa.absence.repository.DepartementRepository;
 import com.ensa.absence.repository.EtudiantRepository;
 import com.ensa.absence.repository.FiliereRepository;
 import com.ensa.absence.repository.GroupeRepository;
+import com.ensa.absence.repository.ProfesseurRepository;
 
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
@@ -38,12 +42,14 @@ public class DbInitializer implements CommandLineRunner {
 
 	@Autowired
 	private EtudiantRepository etudiantRepository;
+	
+	@Autowired
+	private ProfesseurRepository professeurRepository;
 
 	@Override
 	public void run(String... strings) throws Exception {
-		filiereRepository.deleteAll();
-		departementRepository.deleteAll();
-
+		
+		/// Initialise Departement et filieres
 		Departement dep1 = new Departement("GI", null);
 		Departement dep2 = new Departement("GE", null);
 
@@ -51,7 +57,8 @@ public class DbInitializer implements CommandLineRunner {
 		Filiere fil2 = new Filiere("Genie Electronique", dep2);
 
 		filiereRepository.saveAll(Arrays.asList(fil1, fil2));
-
+		
+		// Initialise groupes
 		Groupe gc1 = new GroupeCours(fil1, Calendar.getInstance());
 		Groupe gtd1 = new GroupeTD(fil1, Calendar.getInstance(), 1);
 		Groupe gtd2 = new GroupeTD(fil1, Calendar.getInstance(), 2);
@@ -60,6 +67,7 @@ public class DbInitializer implements CommandLineRunner {
 
 		List<Groupe> groupes = Arrays.asList(gc1, gtd1, gtd2, gtp1, gtp2);
 		
+		/// Initialise Etudiants
 		for (int i = 0; i < 14; i++) {
 			User user = new User(generateRandString(), generateRandString());
 			Etudiant etudiant = new Etudiant(generateRandString(), generateRandString(), "", user, fil1);
@@ -75,6 +83,22 @@ public class DbInitializer implements CommandLineRunner {
 		}
 
 		groupeRepository.saveAll(groupes);
+		
+		//////// Initialise Profs
+		for (int i = 0; i < 2; i++) {
+			User user = new User(generateRandString(), generateRandString());
+			Professeur professeur = new Professeur(generateRandString(), generateRandString(), user);
+			Module module = new Module(generateRandString(), fil1);
+			professeur.addModule(module);
+			professeurRepository.save(professeur);
+		}
+		
+		
+		/// Init Seances
+		for (int i = 0; i < 4; i++) {
+			Seance seance = new Seance();
+		}
+		
 		System.out.println(" -- Database has been initialized");
 	}
 

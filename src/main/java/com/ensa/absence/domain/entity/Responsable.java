@@ -37,4 +37,12 @@ public abstract class Responsable {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	protected User user;
+
+	public Responsable(String nom, String prenom, User user) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.user = user;
+	}
+	
 }

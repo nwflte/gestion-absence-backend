@@ -59,4 +59,17 @@ public class Seance {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Professeur professeur;
+	
+	public Seance(Date date, OrdreSeance ordre, TypeSeance type, Module module, Groupe groupe,
+			Professeur professeur) {
+		super();
+		this.date = date;
+		this.ordre = ordre;
+		this.type = type;
+		this.module = module;
+		this.groupe = groupe;
+		this.professeur = professeur;
+	}
+	
+	
 }

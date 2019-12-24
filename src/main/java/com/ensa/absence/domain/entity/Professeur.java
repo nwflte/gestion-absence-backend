@@ -25,7 +25,11 @@ public class Professeur extends Responsable {
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Module> modules = new HashSet<>();
-
+	
+	public Professeur(String nom, String prenom, User user) {
+		super(nom, prenom, user);
+	}
+	
 	public void addModule(Module module) {
 		modules.add(module);
 		module.getProfesseurs().add(this);
@@ -49,4 +53,6 @@ public class Professeur extends Responsable {
 	public int hashCode() {
 		return 33;
 	}
+
+	
 }
