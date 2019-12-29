@@ -2,6 +2,7 @@ package com.ensa.absence;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -20,11 +21,15 @@ import com.ensa.absence.domain.entity.Professeur;
 import com.ensa.absence.domain.entity.Seance;
 import com.ensa.absence.domain.entity.User;
 import com.ensa.absence.domain.enums.GroupeCategorie;
+import com.ensa.absence.domain.enums.OrdreSeance;
+import com.ensa.absence.domain.enums.TypeSeance;
 import com.ensa.absence.repository.DepartementRepository;
 import com.ensa.absence.repository.EtudiantRepository;
 import com.ensa.absence.repository.FiliereRepository;
 import com.ensa.absence.repository.GroupeRepository;
+import com.ensa.absence.repository.ModuleRepository;
 import com.ensa.absence.repository.ProfesseurRepository;
+import com.ensa.absence.repository.SeanceRepository;
 
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
@@ -44,6 +49,12 @@ public class DbInitializer implements CommandLineRunner {
 	
 	@Autowired
 	private ProfesseurRepository professeurRepository;
+	
+	@Autowired
+	private ModuleRepository moduleRepository;
+	
+	@Autowired
+	private SeanceRepository seanceRepository;
 
 	@Override
 	public void run(String... strings) throws Exception {
@@ -93,14 +104,18 @@ public class DbInitializer implements CommandLineRunner {
 			User user = new User(generateRandString(), generateRandString());
 			Professeur professeur = new Professeur(generateRandString(), generateRandString(), user);
 			Module module = new Module(generateRandString(), fil1);
+			Module module2 = new Module(generateRandString(), fil1);
 			professeur.addModule(module);
+			professeur.addModule(module2);
 			professeurRepository.save(professeur);
 		}
-		
-		
+				
 		/// Init Seances
 		for (int i = 0; i < 4; i++) {
-			Seance seance = new Seance();
+			Module module = moduleRepository.findAll().get(0);
+			Professeur prof = professeurRepository.findAll().get(0);
+			Seance seance = new Seance(new Date(), OrdreSeance.PREMIERE, TypeSeance.COURS, module, gc1, prof );
+			seanceRepository.save(seance);
 		}
 		
 		System.out.println(" -- Database has been initialized");

@@ -28,11 +28,11 @@ public class ModelMapper {
 	}
 
 	public static SeanceResponse mapSeanceToSeanceResponse(Seance seance) {
-		return new SeanceResponse(seance.getId(), mapModuleToModuleResponse(seance.getModule()),
+		return new SeanceResponse(seance.getId(),seance.getDate(), seance.getOrdre(),  mapModuleToModuleResponse(seance.getModule()),
 				mapGroupeToGroupeResponse(seance.getGroupe()), seance.getType());
 	}
 
 	public static ModuleResponse mapModuleToModuleResponse(Module module) {
-		return new ModuleResponse(module.getId(), module.getNom());
+		return new ModuleResponse(module.getId(), module.getNom(), mapFiliereToFiliereResponse(module.getFiliere()));
 	}
 }

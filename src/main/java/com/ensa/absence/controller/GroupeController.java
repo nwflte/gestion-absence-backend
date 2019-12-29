@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.payload.EtudiantResponse;
+import com.ensa.absence.payload.FiliereResponse;
+import com.ensa.absence.payload.GroupeResponse;
+import com.ensa.absence.payload.SeanceResponse;
 import com.ensa.absence.service.GroupeService;
 
 @RestController
@@ -34,5 +37,9 @@ public class GroupeController {
 		return groupeService.getEtudiantsByGroupe(groupeId);
 	}
 	
+	@GetMapping("/filiere/{filiereId}")
+	public List<GroupeResponse> getGroupesOfFiliere(@PathVariable(value = "filiereId", required = true) Long filierefId){
+		return groupeService.getGroupesOfFiliere(filierefId);
+	}
 	
 }

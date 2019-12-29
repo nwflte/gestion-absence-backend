@@ -21,7 +21,7 @@ public class GroupeServiceImpl implements GroupeService {
 
 	@Autowired
 	private GroupeRepository groupeRepository;
-	
+
 	@Autowired
 	private FiliereRepository filiereRepository;
 
@@ -37,7 +37,7 @@ public class GroupeServiceImpl implements GroupeService {
 
 	@Override
 	public List<GroupeResponse> getGroupeResponsesByFiliere(Long filiereId) {
-		Filiere filiere	= filiereRepository.findById(filiereId).get();
+		Filiere filiere = filiereRepository.findById(filiereId).get();
 		return groupeRepository.findByFiliere(filiere).stream()
 				.map(groupe -> ModelMapper.mapGroupeToGroupeResponse(groupe)).collect(Collectors.toList());
 	}
@@ -45,12 +45,19 @@ public class GroupeServiceImpl implements GroupeService {
 	@Override
 	public List<EtudiantResponse> getEtudiantsByGroupe(Long groupeId) {
 		Groupe groupe = groupeRepository.findById(groupeId).get();
-		return groupe.getEtudiants().stream().map(etudiant -> ModelMapper.mapEtudiantToEtudiantResponse(etudiant)).collect(Collectors.toList());
+		return groupe.getEtudiants().stream().map(etudiant -> ModelMapper.mapEtudiantToEtudiantResponse(etudiant))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Groupe saveGroupe(Groupe groupeCours) {
 		return groupeRepository.save(groupeCours);
+	}
+
+	@Override
+	public List<GroupeResponse> getGroupesOfFiliere(Long filierefId) {
+		return groupeRepository.findByFiliere_Id(filierefId).stream().map(g -> ModelMapper.mapGroupeToGroupeResponse(g))
+				.collect(Collectors.toList());
 	}
 
 }

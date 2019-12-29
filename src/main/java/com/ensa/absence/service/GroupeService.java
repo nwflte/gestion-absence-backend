@@ -18,4 +18,6 @@ public interface GroupeService {
 	List<EtudiantResponse> getEtudiantsByGroupe(Long groupeId);
 
 	Groupe saveGroupe(Groupe groupeCours);
+
+	List<GroupeResponse> getGroupesOfFiliere(Long filierefId);
 }
