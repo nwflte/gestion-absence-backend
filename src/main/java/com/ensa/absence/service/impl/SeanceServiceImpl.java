@@ -49,4 +49,9 @@ public class SeanceServiceImpl implements SeanceService {
 		return ModelMapper.mapSeanceToSeanceResponse(seance);
 	}
 
+	@Override
+	public SeanceResponse getSeanceResponseById(Long seanceId) {
+		return ModelMapper.mapSeanceToSeanceResponse(seanceRepository.findById(seanceId).get());
+	}
+
 }

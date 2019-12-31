@@ -30,4 +30,9 @@ public class SeanceController {
 	public SeanceResponse createSeanceByProf(@RequestBody CreateSeanceRequest request) {
 		return seanceService.saveSeanceByProf(request);
 	}
+	
+	@GetMapping("/custom/{seanceId}")
+	public SeanceResponse getSeance(@PathVariable(value = "seanceId", required = true) Long seanceId) {
+		return seanceService.getSeanceResponseById(seanceId);
+	}
 }

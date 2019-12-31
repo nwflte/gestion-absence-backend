@@ -10,5 +10,7 @@ public interface SeanceService {
 	List<SeanceResponse> getSeancesOfProf(Long profId);
 
 	SeanceResponse saveSeanceByProf(CreateSeanceRequest request);
+	
+	SeanceResponse getSeanceResponseById(Long seanceId);
 
 }

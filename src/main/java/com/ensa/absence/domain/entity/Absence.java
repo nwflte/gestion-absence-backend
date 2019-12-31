@@ -48,4 +48,14 @@ public class Absence {
 	@OneToOne
 	private Justification justification;
 
+	public Absence(Etudiant etudiant, Seance seance, boolean isJustifie, Justification justification) {
+		super();
+		this.etudiant = etudiant;
+		this.seance = seance;
+		this.isJustifie = isJustifie;
+		this.justification = justification;
+	}
+	
+	
+
 }

@@ -3,6 +3,7 @@ package com.ensa.absence;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -12,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import com.ensa.absence.domain.entity.Absence;
 import com.ensa.absence.domain.entity.Departement;
 import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
@@ -23,6 +25,7 @@ import com.ensa.absence.domain.entity.User;
 import com.ensa.absence.domain.enums.GroupeCategorie;
 import com.ensa.absence.domain.enums.OrdreSeance;
 import com.ensa.absence.domain.enums.TypeSeance;
+import com.ensa.absence.repository.AbsenceRepository;
 import com.ensa.absence.repository.DepartementRepository;
 import com.ensa.absence.repository.EtudiantRepository;
 import com.ensa.absence.repository.FiliereRepository;
@@ -55,6 +58,9 @@ public class DbInitializer implements CommandLineRunner {
 	
 	@Autowired
 	private SeanceRepository seanceRepository;
+	
+	@Autowired
+	private AbsenceRepository absenceRepository;
 
 	@Override
 	public void run(String... strings) throws Exception {
@@ -111,12 +117,27 @@ public class DbInitializer implements CommandLineRunner {
 		}
 				
 		/// Init Seances
-		for (int i = 0; i < 4; i++) {
-			Module module = moduleRepository.findAll().get(0);
-			Professeur prof = professeurRepository.findAll().get(0);
+		Module module = moduleRepository.findAll().get(0);
+		Professeur prof = professeurRepository.findAll().get(0);
+		for (int i = 0; i < 4; i++) {	
 			Seance seance = new Seance(new Date(), OrdreSeance.PREMIERE, TypeSeance.COURS, module, gc1, prof );
 			seanceRepository.save(seance);
 		}
+		
+		/// Init absences
+		Seance seance = seanceRepository.findAll().get(0);
+		for(int i = 0; i < 5; i++) {
+			Iterator<Etudiant> it = gc1.getEtudiants().iterator();
+			int j = 0;
+			while(j != i) {
+				j++;
+				it.next();
+			}
+			Etudiant et = it.next();
+			Absence absence = new Absence(et, seance, false, null);
+			absenceRepository.save(absence);
+		}
+		
 		
 		System.out.println(" -- Database has been initialized");
 	}

@@ -1,10 +1,12 @@
 package com.ensa.absence.utils;
 
+import com.ensa.absence.domain.entity.Absence;
 import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.domain.entity.Module;
 import com.ensa.absence.domain.entity.Seance;
+import com.ensa.absence.payload.AbsenceResponse;
 import com.ensa.absence.payload.EtudiantResponse;
 import com.ensa.absence.payload.FiliereResponse;
 import com.ensa.absence.payload.GroupeResponse;
@@ -18,8 +20,8 @@ public class ModelMapper {
 	}
 
 	public static GroupeResponse mapGroupeToGroupeResponse(Groupe groupe) {
-		return new GroupeResponse(groupe.getId(), groupe.getCategorie(), groupe.getSemestreN1(),
-				groupe.getSemestreN2(), groupe.getNumero());
+		return new GroupeResponse(groupe.getId(), groupe.getCategorie(), groupe.getSemestreN1(), groupe.getSemestreN2(),
+				groupe.getNumero());
 	}
 
 	public static EtudiantResponse mapEtudiantToEtudiantResponse(Etudiant etudiant) {
@@ -28,11 +30,19 @@ public class ModelMapper {
 	}
 
 	public static SeanceResponse mapSeanceToSeanceResponse(Seance seance) {
-		return new SeanceResponse(seance.getId(),seance.getDate(), seance.getOrdre(),  mapModuleToModuleResponse(seance.getModule()),
-				mapGroupeToGroupeResponse(seance.getGroupe()), seance.getType());
+		return new SeanceResponse(seance.getId(), seance.getDate(), seance.getOrdre(),
+				mapModuleToModuleResponse(seance.getModule()), mapGroupeToGroupeResponse(seance.getGroupe()),
+				seance.getType());
 	}
 
 	public static ModuleResponse mapModuleToModuleResponse(Module module) {
 		return new ModuleResponse(module.getId(), module.getNom(), mapFiliereToFiliereResponse(module.getFiliere()));
+	}
+
+	public static AbsenceResponse mapAbsenceToAbsenceResponse(Absence absence) {
+		AbsenceResponse ar = new AbsenceResponse(absence.getId(), mapEtudiantToEtudiantResponse(absence.getEtudiant()),
+				absence.isJustifie(), "");
+		if(absence.getJustification() != null) ar.setDescription(absence.getJustification().getDescription());
+		return ar;
 	}
 }
