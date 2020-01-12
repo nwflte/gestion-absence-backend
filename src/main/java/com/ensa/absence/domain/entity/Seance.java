@@ -2,13 +2,7 @@ package com.ensa.absence.domain.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.ensa.absence.domain.enums.OrdreSeance;
 import com.ensa.absence.domain.enums.TypeSeance;
@@ -34,6 +28,7 @@ public class Seance {
 	 * Date de la séance (Année, mois et jour), Mapped to DATE dans la base de données
 	 */
 	@Column(nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	/**
 	 * Enumeration : Ordre de la séance dans le jour (4 séances)

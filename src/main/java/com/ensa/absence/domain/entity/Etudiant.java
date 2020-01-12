@@ -28,7 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Etudiant extends ResponsableDateAudit {
+public class Etudiant extends ResponsableDateAudit implements AppUtilisateur{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

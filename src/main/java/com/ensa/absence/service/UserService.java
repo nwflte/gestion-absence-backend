@@ -1,5 +1,7 @@
 package com.ensa.absence.service;
 
-public interface UserService {
+import com.ensa.absence.domain.entity.AppUtilisateur;
 
+public interface UserService {
+    public AppUtilisateur getAppUtilisateurByUsername(String username);
 }

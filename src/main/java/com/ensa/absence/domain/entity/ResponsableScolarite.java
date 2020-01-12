@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ResponsableScolarite {
+public class ResponsableScolarite implements AppUtilisateur{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,5 +33,10 @@ public class ResponsableScolarite {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private User user;
-	
+
+	public ResponsableScolarite(String nom, String prenom, User user) {
+		this.nom = nom;
+		this.prenom = prenom;
+		this.user = user;
+	}
 }

@@ -7,32 +7,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import com.ensa.absence.domain.entity.*;
+import com.ensa.absence.domain.entity.Module;
+import com.ensa.absence.domain.enums.RoleName;
+import com.ensa.absence.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.ensa.absence.domain.entity.Absence;
-import com.ensa.absence.domain.entity.Departement;
-import com.ensa.absence.domain.entity.Etudiant;
-import com.ensa.absence.domain.entity.Filiere;
-import com.ensa.absence.domain.entity.Groupe;
-import com.ensa.absence.domain.entity.Module;
-import com.ensa.absence.domain.entity.Professeur;
-import com.ensa.absence.domain.entity.Seance;
-import com.ensa.absence.domain.entity.User;
 import com.ensa.absence.domain.enums.GroupeCategorie;
 import com.ensa.absence.domain.enums.OrdreSeance;
 import com.ensa.absence.domain.enums.TypeSeance;
-import com.ensa.absence.repository.AbsenceRepository;
-import com.ensa.absence.repository.DepartementRepository;
-import com.ensa.absence.repository.EtudiantRepository;
-import com.ensa.absence.repository.FiliereRepository;
-import com.ensa.absence.repository.GroupeRepository;
-import com.ensa.absence.repository.ModuleRepository;
-import com.ensa.absence.repository.ProfesseurRepository;
-import com.ensa.absence.repository.SeanceRepository;
 
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
@@ -62,6 +52,12 @@ public class DbInitializer implements CommandLineRunner {
 	@Autowired
 	private AbsenceRepository absenceRepository;
 
+	@Autowired
+	private ResponsableScolariteRepository responsableScolariteRepository;
+
+	@Autowired
+	private  RoleRepository roleRepository;
+
 	@Override
 	public void run(String... strings) throws Exception {
 		
@@ -85,7 +81,8 @@ public class DbInitializer implements CommandLineRunner {
 		
 		/// Initialise Etudiants
 		for (int i = 0; i < 14; i++) {
-			User user = new User(generateRandString(), generateRandString());
+			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode("password"));
+			user.getRoles().add(roleRepository.findByName(RoleName.ROLE_ETUDIANT));
 			Etudiant etudiant = new Etudiant(generateRandString(), generateRandString(), "", user, fil1);
 			gc1.addEtudiant(etudiant);
 			if (i % 2 == 0) {
@@ -107,7 +104,8 @@ public class DbInitializer implements CommandLineRunner {
 		
 		//////// Initialise Profs
 		for (int i = 0; i < 2; i++) {
-			User user = new User(generateRandString(), generateRandString());
+			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode("password"));
+			user.getRoles().add(roleRepository.findByName(RoleName.ROLE_PROFESSEUR));
 			Professeur professeur = new Professeur(generateRandString(), generateRandString(), user);
 			Module module = new Module(generateRandString(), fil1);
 			Module module2 = new Module(generateRandString(), fil1);
@@ -137,8 +135,13 @@ public class DbInitializer implements CommandLineRunner {
 			Absence absence = new Absence(et, seance, false, null);
 			absenceRepository.save(absence);
 		}
-		
-		
+
+		//Init Respo
+		User respoUser = new User("respo", new BCryptPasswordEncoder().encode("password"));
+		respoUser.getRoles().add(roleRepository.findByName(RoleName.ROLE_SCOLARITE));
+		ResponsableScolarite responsableScolarite = new ResponsableScolarite("respo", "respo", respoUser);
+		responsableScolariteRepository.save(responsableScolarite);
+
 		System.out.println(" -- Database has been initialized");
 	}
 

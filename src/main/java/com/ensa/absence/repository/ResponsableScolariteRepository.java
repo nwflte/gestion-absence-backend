@@ -8,4 +8,5 @@ public interface ResponsableScolariteRepository extends BaseRepository<Responsab
 
 	Optional<ResponsableScolarite> findByUser_Id(Long id);
 
+    ResponsableScolarite findByUser_Username(String username);
 }

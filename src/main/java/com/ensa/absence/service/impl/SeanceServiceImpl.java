@@ -54,4 +54,11 @@ public class SeanceServiceImpl implements SeanceService {
 		return ModelMapper.mapSeanceToSeanceResponse(seanceRepository.findById(seanceId).get());
 	}
 
+	@Override
+	public List<SeanceResponse> getSeancesOfProfByDate(Long profId, Date date) {
+		List<Seance> seances = seanceRepository.findByProfesseur_IdAndDate(profId, date);
+		return seances.stream().map(seance -> ModelMapper.mapSeanceToSeanceResponse(seance))
+				.collect(Collectors.toList());
+	}
+
 }

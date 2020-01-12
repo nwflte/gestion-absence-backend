@@ -26,7 +26,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Professeur {
+public class Professeur implements AppUtilisateur {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
