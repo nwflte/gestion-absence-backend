@@ -5,8 +5,10 @@ import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.exception.EtudiantsExcelFileHasWrogFormat;
 import com.ensa.absence.exception.ExcelFileCellNotKnown;
+import com.ensa.absence.payload.AbsenceResponse;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface EtudiantService {
@@ -28,14 +30,17 @@ public interface EtudiantService {
 	 */
 	boolean addEtudiantToGroupe(Etudiant etudiant, Groupe groupe);
 
-	/**
-	 * Ajouter un étudiant à une nouvelle filière.
-	 * Cette méthode va ajouter un nouveau groupe de cours de la filière pour l'étudiant.
-	 * @param
-	 * @return
-	 */
-	void addEtudiantToFiliere(Etudiant etudiant, Filiere filiere);
+    /**
+     * Ajouter un étudiant à une nouvelle filière.
+     * Cette méthode va ajouter un nouveau groupe de cours de la filière pour l'étudiant.
+     *
+     * @param
+     * @return
+     */
+    void addEtudiantToFiliere(Etudiant etudiant, Filiere filiere);
 
 
-	void ajouterListEtudiantsExcel(String filiereOrGroupe, Long id, MultipartFile excelDataFile) throws ExcelFileCellNotKnown, EtudiantsExcelFileHasWrogFormat;
+    void ajouterListEtudiantsExcel(String filiereOrGroupe, Long id, MultipartFile excelDataFile) throws ExcelFileCellNotKnown, EtudiantsExcelFileHasWrogFormat;
+
+    List<AbsenceResponse> getAbsences(Long id);
 }

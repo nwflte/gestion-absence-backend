@@ -2,6 +2,7 @@ package com.ensa.absence.controller;
 
 import com.ensa.absence.exception.EtudiantsExcelFileHasWrogFormat;
 import com.ensa.absence.exception.ExcelFileCellNotKnown;
+import com.ensa.absence.payload.AbsenceResponse;
 import com.ensa.absence.payload.EtudiantResponse;
 import com.ensa.absence.service.EtudiantService;
 import com.ensa.absence.utils.ModelMapper;
@@ -10,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/etudiants")
@@ -33,8 +36,13 @@ public class EtudiantController {
     }
 
     @GetMapping("/{id}")
-    public EtudiantResponse getEtudiant(@PathVariable(value = "id") Long id){
+    public EtudiantResponse getEtudiant(@PathVariable(value = "id") Long id) {
         return ModelMapper.mapEtudiantToEtudiantResponse(etudiantService.getEtudiantById(id).get());
+    }
+
+    @GetMapping("{id}/absences")
+    public List<AbsenceResponse> getAbsences(@PathVariable(value = "id") Long id) {
+        return etudiantService.getAbsences(id);
     }
 
 }

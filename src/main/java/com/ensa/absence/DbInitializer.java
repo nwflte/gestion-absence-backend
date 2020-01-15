@@ -51,6 +51,8 @@ public class DbInitializer implements CommandLineRunner {
 
 	@Override
 	public void run(String... strings) throws Exception {
+		if (filiereRepository.existsById(1L))
+			return;
 		
 		/// Initialise Departement et filieres
 		Departement dep1 = new Departement("GI", null);
@@ -59,8 +61,10 @@ public class DbInitializer implements CommandLineRunner {
 		Filiere fil1 = new Filiere("Genie Logiciel", dep1);
 		Filiere fil2 = new Filiere("Genie Electronique", dep2);
 
+
 		filiereRepository.saveAll(Arrays.asList(fil1, fil2));
-		
+
+
 		// Initialise groupes
 		Groupe gc1 = new Groupe(fil1, GroupeCategorie.COURS, 0, Calendar.getInstance());
 		Groupe gtd1 = new Groupe(fil1, GroupeCategorie.TD, 1, Calendar.getInstance());

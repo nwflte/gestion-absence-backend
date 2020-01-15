@@ -7,9 +7,11 @@ import com.ensa.absence.domain.entity.User;
 import com.ensa.absence.domain.enums.RoleName;
 import com.ensa.absence.exception.EtudiantsExcelFileHasWrogFormat;
 import com.ensa.absence.exception.ExcelFileCellNotKnown;
+import com.ensa.absence.payload.AbsenceResponse;
 import com.ensa.absence.repository.*;
 import com.ensa.absence.service.EtudiantService;
 import com.ensa.absence.service.GroupeService;
+import com.ensa.absence.utils.ModelMapper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EtudiantServiceImpl implements EtudiantService {
@@ -35,26 +39,29 @@ public class EtudiantServiceImpl implements EtudiantService {
 	private GroupeService groupeService;
 
 	@Autowired
-	private GroupeRepository groupeRepository;
+    private GroupeRepository groupeRepository;
 
-	@Autowired
-	private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-	@Autowired
-	private FiliereRepository filiereRepository;
+    @Autowired
+    private FiliereRepository filiereRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	public Optional<Etudiant> getEtudiantById(Long id) {
-		return etudiantRepository.findById(id);
-	}
+    @Autowired
+    private AbsenceRepository absenceRepository;
 
-	@Override
-	public boolean addEtudiantToGroupe(Etudiant etudiant, Groupe groupe) {
-		groupe.addEtudiant(etudiant);
-		return true;
+    @Override
+    public Optional<Etudiant> getEtudiantById(Long id) {
+        return etudiantRepository.findById(id);
+    }
+
+    @Override
+    public boolean addEtudiantToGroupe(Etudiant etudiant, Groupe groupe) {
+        groupe.addEtudiant(etudiant);
+        return true;
 	}
 
 	@Override
@@ -130,25 +137,31 @@ public class EtudiantServiceImpl implements EtudiantService {
 				etudiantRepository.save(etudiant);
 				if(filiereOrGroupe.equalsIgnoreCase("filiere"))
 					addEtudiantToFiliere(etudiant, filiereRepository.findById(id).get());
-				else
-					addEtudiantToGroupe(etudiant, groupeRepository.findById(id).get());
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+                else
+                    addEtudiantToGroupe(etudiant, groupeRepository.findById(id).get());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private boolean isFileHasRightFormat(Row currentRow) {
-		Iterator<Cell> cellIterator = currentRow.iterator();
-		while (cellIterator.hasNext()) {
-			Cell currentCell = cellIterator.next();
-			switch (currentCell.getColumnIndex()){
-				case 0:
-					if(!currentCell.getStringCellValue().equalsIgnoreCase("CNE"))
-						return false;
-					break;
+    @Override
+    public List<AbsenceResponse> getAbsences(Long id) {
+        return absenceRepository.findByEtudiant_Id(id).stream().map(a -> ModelMapper.mapAbsenceToAbsenceResponse(a))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isFileHasRightFormat(Row currentRow) {
+        Iterator<Cell> cellIterator = currentRow.iterator();
+        while (cellIterator.hasNext()) {
+            Cell currentCell = cellIterator.next();
+            switch (currentCell.getColumnIndex()) {
+                case 0:
+                    if (!currentCell.getStringCellValue().equalsIgnoreCase("CNE"))
+                        return false;
+                    break;
 				case 1:
 					if(!currentCell.getStringCellValue().equalsIgnoreCase("APOGEE"))
 						return false;

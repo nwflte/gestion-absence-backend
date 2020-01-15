@@ -1,7 +1,7 @@
 package com.ensa.absence.utils;
 
-import com.ensa.absence.domain.entity.*;
 import com.ensa.absence.domain.entity.Module;
+import com.ensa.absence.domain.entity.*;
 import com.ensa.absence.payload.*;
 
 public class ModelMapper {
@@ -32,7 +32,7 @@ public class ModelMapper {
 
 	public static AbsenceResponse mapAbsenceToAbsenceResponse(Absence absence) {
 		AbsenceResponse ar = new AbsenceResponse(absence.getId(), mapEtudiantToEtudiantResponse(absence.getEtudiant()),
-				absence.isJustifie(), "");
+				absence.isJustifie(), "", mapSeanceToSeanceResponse(absence.getSeance()));
 		if(absence.getJustification() != null) ar.setDescription(absence.getJustification().getDescription());
 		return ar;
 	}
