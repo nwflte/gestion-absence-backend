@@ -53,7 +53,7 @@ public class DbInitializer implements CommandLineRunner {
 	public void run(String... strings) throws Exception {
 		if (filiereRepository.existsById(1L))
 			return;
-		
+
 		/// Initialise Departement et filieres
 		Departement dep1 = new Departement("GI", null);
 		Departement dep2 = new Departement("GE", null);
