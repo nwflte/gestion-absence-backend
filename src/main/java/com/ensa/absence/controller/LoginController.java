@@ -9,7 +9,6 @@ import com.ensa.absence.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,14 +32,14 @@ public class LoginController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
-    @Value("${app.jwtSecret}")
-    private String jwtSecret;
+    //@Value("${app.jwtSecret}")
+    private final String jwtSecret = "JWTSuperSecretKey";
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/access-token")
-    public ResponseEntity<?> loginWithToken(@RequestBody JwtLoginRequest body){
+    public ResponseEntity<?> loginWithToken(@RequestBody JwtLoginRequest body) {
         String username = ((DefaultClaims) Jwts.parser().setSigningKey(jwtSecret).parse(body.getAccessToken()).getBody()).getSubject();
         AppUtilisateur appUtilisateur = userService.getAppUtilisateurByUsername(username);
 
