@@ -4,4 +4,5 @@ public interface AppUtilisateur {
     public String getNom();
     public String getPrenom();
     public User getUser();
+    public Long getId();
 }

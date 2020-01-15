@@ -1,19 +1,14 @@
 package com.ensa.absence.controller;
 
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.ensa.absence.domain.entity.Filiere;
-import com.ensa.absence.payload.FiliereResponse;
-import com.ensa.absence.payload.GroupeResponse;
+import com.ensa.absence.payload.*;
 import com.ensa.absence.service.FiliereService;
 import com.ensa.absence.service.GroupeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/filieres")
@@ -43,5 +38,10 @@ public class FiliereController {
 	@GetMapping("/{filiereId}/groupes")
 	public List<GroupeResponse> getGroupesByFiliere(@PathVariable(value = "filiereId", required = true) Long filiereId) {
 		return groupeService.getGroupeResponsesByFiliere(filiereId);
+	}
+
+	@PostMapping("/")
+	public FiliereResponse createSeanceByProf(@RequestBody CreateFiliereRequest request) {
+		return filiereService.saveFiliere(request);
 	}
 }

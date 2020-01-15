@@ -1,17 +1,8 @@
 package com.ensa.absence.utils;
 
-import com.ensa.absence.domain.entity.Absence;
-import com.ensa.absence.domain.entity.Etudiant;
-import com.ensa.absence.domain.entity.Filiere;
-import com.ensa.absence.domain.entity.Groupe;
+import com.ensa.absence.domain.entity.*;
 import com.ensa.absence.domain.entity.Module;
-import com.ensa.absence.domain.entity.Seance;
-import com.ensa.absence.payload.AbsenceResponse;
-import com.ensa.absence.payload.EtudiantResponse;
-import com.ensa.absence.payload.FiliereResponse;
-import com.ensa.absence.payload.GroupeResponse;
-import com.ensa.absence.payload.ModuleResponse;
-import com.ensa.absence.payload.SeanceResponse;
+import com.ensa.absence.payload.*;
 
 public class ModelMapper {
 
@@ -45,4 +36,9 @@ public class ModelMapper {
 		if(absence.getJustification() != null) ar.setDescription(absence.getJustification().getDescription());
 		return ar;
 	}
+
+    public static ProfesseurResponse mapProfesseurToProfesseurResponse(Professeur p) {
+		return new ProfesseurResponse(p.getId(), p.getNom(), p.getPrenom(), p.getUser().getUsername(),
+				p.getUser().getPassword());
+    }
 }

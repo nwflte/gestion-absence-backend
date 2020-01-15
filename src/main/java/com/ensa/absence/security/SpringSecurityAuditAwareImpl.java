@@ -15,16 +15,6 @@ import com.ensa.absence.repository.ResponsableScolariteRepository;
 import com.ensa.absence.repository.UserRepository;
 
 public class SpringSecurityAuditAwareImpl implements AuditorAware<Long> {
-
-	@Autowired
-	private ResponsableScolariteRepository responsableRepository;
-	
-	@Autowired
-	private ProfesseurRepository professeurRepository;
-
-	@Autowired
-	private UserRepository userRepository;
-
 	@Override
 	public Optional<Long> getCurrentAuditor() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -35,12 +25,6 @@ public class SpringSecurityAuditAwareImpl implements AuditorAware<Long> {
 		}
 
 		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-		
-		User user = userRepository.findById(userPrincipal.getId()).get();
-		Optional<ResponsableScolarite> responsable = responsableRepository.findByUser_Id(userPrincipal.getId());
-		if(responsable.isPresent())
-			return Optional.ofNullable(responsable.get().getId());
-		
-		return Optional.ofNullable(professeurRepository.findByUser_Id(userPrincipal.getId()).get().getId());		
+		return Optional.ofNullable(userPrincipal.getId());
 	}
 }

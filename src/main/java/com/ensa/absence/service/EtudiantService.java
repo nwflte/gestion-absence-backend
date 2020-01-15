@@ -1,10 +1,13 @@
 package com.ensa.absence.service;
 
-import java.util.Optional;
-
 import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.domain.entity.Groupe;
+import com.ensa.absence.exception.EtudiantsExcelFileHasWrogFormat;
+import com.ensa.absence.exception.ExcelFileCellNotKnown;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 public interface EtudiantService {
 	
@@ -28,9 +31,11 @@ public interface EtudiantService {
 	/**
 	 * Ajouter un étudiant à une nouvelle filière.
 	 * Cette méthode va ajouter un nouveau groupe de cours de la filière pour l'étudiant.
-	 * @param groupeCours
+	 * @param
 	 * @return
 	 */
 	void addEtudiantToFiliere(Etudiant etudiant, Filiere filiere);
-		
+
+
+	void ajouterListEtudiantsExcel(String filiereOrGroupe, Long id, MultipartFile excelDataFile) throws ExcelFileCellNotKnown, EtudiantsExcelFileHasWrogFormat;
 }

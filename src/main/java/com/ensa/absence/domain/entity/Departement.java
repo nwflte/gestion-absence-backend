@@ -10,6 +10,9 @@ import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+
+import java.util.Objects;
 
 /**
  * Class representant un département
@@ -29,6 +32,7 @@ public class Departement {
 	 * Nom du département
 	 */
 	@Column(nullable = false)
+	@NaturalId
 	private String nom;
 
 	/**
@@ -42,6 +46,21 @@ public class Departement {
 		this.nom = nom;
 		this.chefDeDepartement = chefDeDepartement;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(nom);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Departement other = (Departement) obj;
+		return Objects.equals(nom, other.getNom());
+	}
 }

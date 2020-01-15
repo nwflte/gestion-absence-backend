@@ -71,18 +71,21 @@ public class Etudiant extends ResponsableDateAudit implements AppUtilisateur{
 		this.user = user;
 		this.filiere = filiere;
 	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (!(o instanceof Etudiant))
-			return false;
-		return Objects.equals(user.getUsername(), ((Etudiant) o).getUser().getUsername());
-	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(user.getUsername());
+		return 13;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Etudiant other = (Etudiant) obj;
+		return id != null && id.equals(other.getId());
 	}
 }

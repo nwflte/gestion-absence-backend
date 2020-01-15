@@ -39,4 +39,18 @@ public class ResponsableScolarite implements AppUtilisateur{
 		this.prenom = prenom;
 		this.user = user;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof ResponsableScolarite))
+			return false;
+		return id != null && id.equals(((ResponsableScolarite) obj).getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return 22;
+	}
 }

@@ -1,18 +1,11 @@
 package com.ensa.absence;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.ensa.absence.domain.entity.*;
 import com.ensa.absence.domain.entity.Module;
+import com.ensa.absence.domain.entity.*;
+import com.ensa.absence.domain.enums.GroupeCategorie;
+import com.ensa.absence.domain.enums.OrdreSeance;
 import com.ensa.absence.domain.enums.RoleName;
+import com.ensa.absence.domain.enums.TypeSeance;
 import com.ensa.absence.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,9 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.ensa.absence.domain.enums.GroupeCategorie;
-import com.ensa.absence.domain.enums.OrdreSeance;
-import com.ensa.absence.domain.enums.TypeSeance;
+import java.util.*;
 
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")

@@ -64,6 +64,18 @@ public class Seance {
 		this.groupe = groupe;
 		this.professeur = professeur;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Seance))
+			return false;
+		return id != null && id.equals(((Seance) obj).getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return 25;
+	}
 }

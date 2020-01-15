@@ -1,6 +1,5 @@
 package com.ensa.absence.payload;
 
-import com.ensa.absence.domain.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,12 +14,14 @@ public class LoginResponse {
     private String nom;
     private String prenom;
     private String role;
+    private Long appUtilisateurId;
 
-    public LoginResponse(String accessToken, String username, String nom, String prenom, String role) {
+    public LoginResponse(String accessToken, String username, String nom, String prenom, String role, Long appUtilisateurId) {
         this.accessToken = accessToken;
         this.username = username;
         this.nom = nom;
         this.prenom = prenom;
         this.role = role;
+        this.appUtilisateurId = appUtilisateurId;
     }
 }

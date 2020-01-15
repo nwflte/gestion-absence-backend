@@ -1,19 +1,13 @@
 package com.ensa.absence.domain.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
 import com.ensa.absence.domain.audit.ResponsableDateAudit;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Classe representant une filière 
@@ -33,6 +27,7 @@ public class Filiere extends ResponsableDateAudit {
 	 * Nom de la filière
 	 */
 	@Column(nullable = false)
+	@NaturalId
 	private String nom;
 	
 	/**
@@ -45,6 +40,23 @@ public class Filiere extends ResponsableDateAudit {
 		super();
 		this.nom = nom;
 		this.departement = departement;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(nom);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Filiere other = (Filiere) obj;
+		return Objects.equals(nom, other.getNom());
 	}
 	
 }

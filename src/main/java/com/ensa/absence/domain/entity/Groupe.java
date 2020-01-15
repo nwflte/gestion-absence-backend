@@ -1,23 +1,14 @@
 package com.ensa.absence.domain.entity;
 
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-
 import com.ensa.absence.domain.enums.GroupeCategorie;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class abstraite representant un groupe d'etudiant qui peut assiter à une
@@ -102,6 +93,6 @@ public class Groupe {
 
 	@Override
 	public int hashCode() {
-		return 31;
+		return 18;
 	}
 }

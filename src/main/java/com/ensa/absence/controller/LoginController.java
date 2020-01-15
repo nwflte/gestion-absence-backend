@@ -1,31 +1,25 @@
 package com.ensa.absence.controller;
 
 import com.ensa.absence.domain.entity.AppUtilisateur;
-import com.ensa.absence.domain.entity.Role;
-import com.ensa.absence.payload.JwtAuthenticationResponse;
 import com.ensa.absence.payload.JwtLoginRequest;
 import com.ensa.absence.payload.LoginRequest;
 import com.ensa.absence.payload.LoginResponse;
 import com.ensa.absence.security.JwtTokenProvider;
-import com.ensa.absence.security.UserPrincipal;
 import com.ensa.absence.service.UserService;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import io.jsonwebtoken.*;
 
 import java.util.ArrayList;
 
@@ -50,8 +44,11 @@ public class LoginController {
         String username = ((DefaultClaims) Jwts.parser().setSigningKey(jwtSecret).parse(body.getAccessToken()).getBody()).getSubject();
         AppUtilisateur appUtilisateur = userService.getAppUtilisateurByUsername(username);
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
+        String role = auth.get(0).getAuthority();
         return ResponseEntity.ok(new LoginResponse(body.getAccessToken(), username, appUtilisateur.getNom(),
-                appUtilisateur.getPrenom(), ""));
+                appUtilisateur.getPrenom(), role, appUtilisateur.getId()));
     }
 
     @PostMapping("/login")
@@ -70,6 +67,6 @@ public class LoginController {
         ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
         String role = auth.get(0).getAuthority();
         return ResponseEntity.ok(new LoginResponse(jwt, loginRequest.getUsername(), appUtilisateur.getNom(),
-                appUtilisateur.getPrenom(), role));
+                appUtilisateur.getPrenom(), role, appUtilisateur.getId()));
     }
 }

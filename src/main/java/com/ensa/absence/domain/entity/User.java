@@ -1,6 +1,7 @@
 package com.ensa.absence.domain.entity;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class User extends ResponsableDateAudit {
 	@Column(nullable = false)
 	private String password;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
 	public User(String username, String password) {
@@ -37,6 +38,21 @@ public class User extends ResponsableDateAudit {
 		this.username = username;
 		this.password = password;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(username, other.getUsername());
+	}
 }

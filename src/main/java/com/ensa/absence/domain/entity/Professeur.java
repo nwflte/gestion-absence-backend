@@ -71,7 +71,7 @@ public class Professeur implements AppUtilisateur {
 	
 	@Override
 	public int hashCode() {
-		return 33;
+		return 36;
 	}
 
 	

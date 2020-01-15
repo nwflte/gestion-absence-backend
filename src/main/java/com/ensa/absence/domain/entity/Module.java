@@ -1,21 +1,14 @@
 package com.ensa.absence.domain.entity;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Class representant un module
@@ -35,6 +28,7 @@ public class Module {
 	 * Nom du module
 	 */
 	@Column(nullable = false)
+	@NaturalId
 	private String nom;
 	
 	/**
@@ -54,14 +48,17 @@ public class Module {
 		this.nom = nom;
 		this.filiere = filiere;
 	}
-	
+
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		if (!(o instanceof Module))
+		if (obj == null)
 			return false;
-		return Objects.equals(nom, ((Module) o).getNom());
+		if (getClass() != obj.getClass())
+			return false;
+		Module other = (Module) obj;
+		return Objects.equals(nom, other.getNom());
 	}
 	
 	@Override
