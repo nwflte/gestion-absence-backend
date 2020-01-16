@@ -40,7 +40,8 @@ public class LoginController {
 
     @PostMapping("/access-token")
     public ResponseEntity<?> loginWithToken(@RequestBody JwtLoginRequest body) {
-        String username = ((DefaultClaims) Jwts.parser().setSigningKey(jwtSecret).parse(body.getAccessToken()).getBody()).getSubject();
+        String username = ((DefaultClaims) Jwts.parser().setSigningKey(jwtSecret).parse(body.getAccessToken()).getBody())
+                .getSubject();
         AppUtilisateur appUtilisateur = userService.getAppUtilisateurByUsername(username);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
