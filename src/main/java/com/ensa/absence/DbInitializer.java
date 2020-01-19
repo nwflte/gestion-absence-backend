@@ -21,7 +21,7 @@ import java.util.*;
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
 public class DbInitializer implements CommandLineRunner {
 
-	private final String password = "password";
+	private final static String password = "password";
 
 	private Random random = SecureRandom.getInstanceStrong();
 
