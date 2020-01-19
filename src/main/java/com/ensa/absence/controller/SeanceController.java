@@ -1,16 +1,16 @@
 package com.ensa.absence.controller;
 
+import com.ensa.absence.payload.CreateSeanceRequest;
+import com.ensa.absence.payload.SeanceResponse;
+import com.ensa.absence.service.SeanceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import com.ensa.absence.payload.CreateSeanceRequest;
-import com.ensa.absence.payload.SeanceResponse;
-import com.ensa.absence.service.SeanceService;
 
 @RestController
 @RequestMapping("/api/seances")
@@ -38,6 +38,7 @@ public class SeanceController {
 	}
 
 	@PostMapping("/creator/prof")
+	@PreAuthorize("hasRole('PROFESSEUR')")
 	public SeanceResponse createSeanceByProf(@RequestBody CreateSeanceRequest request) {
 		return seanceService.saveSeanceByProf(request);
 	}

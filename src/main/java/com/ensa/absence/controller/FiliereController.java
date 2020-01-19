@@ -2,10 +2,13 @@ package com.ensa.absence.controller;
 
 
 import com.ensa.absence.domain.entity.Filiere;
-import com.ensa.absence.payload.*;
+import com.ensa.absence.payload.CreateFiliereRequest;
+import com.ensa.absence.payload.FiliereResponse;
+import com.ensa.absence.payload.GroupeResponse;
 import com.ensa.absence.service.FiliereService;
 import com.ensa.absence.service.GroupeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +44,7 @@ public class FiliereController {
 	}
 
 	@PostMapping("/")
+	@PreAuthorize("hasRole('PROFESSEUR')")
 	public FiliereResponse createSeanceByProf(@RequestBody CreateFiliereRequest request) {
 		return filiereService.saveFiliere(request);
 	}
