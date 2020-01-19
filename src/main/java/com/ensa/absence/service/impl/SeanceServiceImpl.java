@@ -1,12 +1,5 @@
 package com.ensa.absence.service.impl;
 
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ensa.absence.domain.entity.Seance;
 import com.ensa.absence.payload.CreateSeanceRequest;
 import com.ensa.absence.payload.SeanceResponse;
@@ -16,6 +9,12 @@ import com.ensa.absence.repository.ProfesseurRepository;
 import com.ensa.absence.repository.SeanceRepository;
 import com.ensa.absence.service.SeanceService;
 import com.ensa.absence.utils.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SeanceServiceImpl implements SeanceService {

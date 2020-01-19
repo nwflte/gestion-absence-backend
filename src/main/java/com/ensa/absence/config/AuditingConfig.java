@@ -1,11 +1,10 @@
 package com.ensa.absence.config;
 
+import com.ensa.absence.security.SpringSecurityAuditAwareImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import com.ensa.absence.security.SpringSecurityAuditAwareImpl;
 
 @Configuration
 @EnableJpaAuditing

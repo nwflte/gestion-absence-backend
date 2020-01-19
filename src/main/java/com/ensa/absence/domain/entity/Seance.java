@@ -1,19 +1,16 @@
 package com.ensa.absence.domain.entity;
 
-import java.util.Date;
-
-import javax.persistence.*;
-
 import com.ensa.absence.domain.enums.OrdreSeance;
 import com.ensa.absence.domain.enums.TypeSeance;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.Date;
+
 /**
  * Class representant une séance (de cours, de TP ou de TD)
- *
  */
 @Entity
 @Getter

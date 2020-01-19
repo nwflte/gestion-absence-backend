@@ -1,12 +1,5 @@
 package com.ensa.absence.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.payload.EtudiantResponse;
@@ -15,6 +8,12 @@ import com.ensa.absence.repository.FiliereRepository;
 import com.ensa.absence.repository.GroupeRepository;
 import com.ensa.absence.service.GroupeService;
 import com.ensa.absence.utils.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupeServiceImpl implements GroupeService {

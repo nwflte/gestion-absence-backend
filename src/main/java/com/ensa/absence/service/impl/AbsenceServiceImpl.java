@@ -1,18 +1,16 @@
 package com.ensa.absence.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ensa.absence.domain.entity.Absence;
 import com.ensa.absence.payload.AbsenceResponse;
 import com.ensa.absence.payload.NewOrModifyAbsenceRequest;
 import com.ensa.absence.repository.AbsenceRepository;
 import com.ensa.absence.service.AbsenceService;
 import com.ensa.absence.utils.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AbsenceServiceImpl implements AbsenceService {

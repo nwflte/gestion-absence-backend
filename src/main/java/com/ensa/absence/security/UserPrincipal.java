@@ -1,18 +1,16 @@
 package com.ensa.absence.security;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
+import com.ensa.absence.domain.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ensa.absence.domain.entity.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Getter;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 public class UserPrincipal implements UserDetails {

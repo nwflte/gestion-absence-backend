@@ -2,7 +2,6 @@ package com.ensa.absence.payload;
 
 import com.ensa.absence.domain.enums.OrdreSeance;
 import com.ensa.absence.domain.enums.TypeSeance;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.ensa.absence;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.ensa.absence.domain.entity.*;
+import com.ensa.absence.service.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,17 +12,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ensa.absence.domain.entity.Departement;
-import com.ensa.absence.domain.entity.Etudiant;
-import com.ensa.absence.domain.entity.Filiere;
-import com.ensa.absence.domain.entity.Groupe;
-import com.ensa.absence.domain.entity.Professeur;
-import com.ensa.absence.domain.entity.User;
-import com.ensa.absence.service.DepartementService;
-import com.ensa.absence.service.EtudiantService;
-import com.ensa.absence.service.FiliereService;
-import com.ensa.absence.service.GroupeService;
-import com.ensa.absence.service.ProfesseurService;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase

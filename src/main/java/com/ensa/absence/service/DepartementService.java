@@ -1,9 +1,9 @@
 package com.ensa.absence.service;
 
+import com.ensa.absence.domain.entity.Departement;
+
 import java.util.List;
 import java.util.Optional;
-
-import com.ensa.absence.domain.entity.Departement;
 
 public interface DepartementService {
 

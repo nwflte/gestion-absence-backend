@@ -1,14 +1,13 @@
 package com.ensa.absence.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ensa.absence.domain.entity.Departement;
 import com.ensa.absence.repository.DepartementRepository;
 import com.ensa.absence.service.DepartementService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartementServiceImpl implements DepartementService {

@@ -1,23 +1,23 @@
 package com.ensa.absence.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.payload.EtudiantResponse;
 import com.ensa.absence.payload.GroupeResponse;
 
+import java.util.List;
+import java.util.Optional;
+
 
 public interface GroupeService {
-	List<Groupe> getAllGroupes();
+    List<Groupe> getAllGroupes();
 
-	Optional<Groupe> getGroupeById(Long id);
+    Optional<Groupe> getGroupeById(Long id);
 
-	List<GroupeResponse> getGroupeResponsesByFiliere(Long filiereId);
-	
-	List<EtudiantResponse> getEtudiantsByGroupe(Long groupeId);
+    List<GroupeResponse> getGroupeResponsesByFiliere(Long filiereId);
 
-	Groupe saveGroupe(Groupe groupeCours);
+    List<EtudiantResponse> getEtudiantsByGroupe(Long groupeId);
 
-	List<GroupeResponse> getGroupesOfFiliere(Long filierefId);
+    Groupe saveGroupe(Groupe groupeCours);
+
+    List<GroupeResponse> getGroupesOfFiliere(Long filierefId);
 }

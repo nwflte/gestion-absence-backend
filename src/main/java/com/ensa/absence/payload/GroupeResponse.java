@@ -1,11 +1,8 @@
 package com.ensa.absence.payload;
 
 
-
-
 import com.ensa.absence.domain.enums.GroupeCategorie;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
