@@ -25,8 +25,8 @@ public class AbsenceController {
 	@PreAuthorize("hasRole('PROFESSEUR')")
 	public void saveAbsenceChangesToSeance(@PathVariable(value = "seanceId", required = true) Long seanceId,
 			@RequestBody List<NewOrModifyAbsenceRequest> request) {
-		
-		absenceService.modifyAbsencesOfSeace(seanceId, request);
-		
+
+		absenceService.modifyAbsencesOfSeance(seanceId, request);
+
 	}
 }

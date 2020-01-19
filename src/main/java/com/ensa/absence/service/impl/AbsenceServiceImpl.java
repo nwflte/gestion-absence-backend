@@ -25,15 +25,13 @@ public class AbsenceServiceImpl implements AbsenceService {
 	}
 
 	@Override
-	public void modifyAbsencesOfSeace(Long seanceId, List<NewOrModifyAbsenceRequest> request) {
-		List<Absence> oldAbsences =  absenceRepository.findBySeance_Id(seanceId);
-		//List<Absence> toDelete = new ArrayList<>();
+	public void modifyAbsencesOfSeance(Long seanceId, List<NewOrModifyAbsenceRequest> request) {
+		List<Absence> oldAbsences = absenceRepository.findBySeance_Id(seanceId);
 		oldAbsences.forEach(a -> {
-			if(!request.stream().anyMatch(req -> req.getEtudiantId().compareTo(a.getEtudiant().getId()) == 0)) {
+			if (request.stream().noneMatch(req -> req.getEtudiantId().compareTo(a.getEtudiant().getId()) == 0)) {
 				absenceRepository.delete(a);
-				//toDelete.add(a);
 			}
-		});		
+		});
 	}
 
 }

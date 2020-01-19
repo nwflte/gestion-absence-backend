@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -55,13 +54,6 @@ public class ProfesseurServiceImpl implements ProfesseurService {
 	@Override
 	public Optional<Professeur> getProfesseurById(Long id) {
 		return professeurRepository.findById(id);
-	}
-
-
-	@Override
-	public Professeur archiverProfesseur(Professeur professeur) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -113,8 +105,6 @@ public class ProfesseurServiceImpl implements ProfesseurService {
 				professeur.setUser(user);
 				professeurRepository.save(professeur);
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

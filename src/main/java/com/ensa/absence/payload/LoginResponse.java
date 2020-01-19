@@ -9,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoginResponse {
     private String accessToken;
-    private final String tokenType = "Bearer";
     private String username;
     private String nom;
     private String prenom;

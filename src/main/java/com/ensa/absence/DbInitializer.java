@@ -13,11 +13,17 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.*;
 
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
 public class DbInitializer implements CommandLineRunner {
+
+	private final String password = "password";
+
+	private Random random = SecureRandom.getInstanceStrong();
 
 	@Autowired
 	private FiliereRepository filiereRepository;
@@ -39,7 +45,7 @@ public class DbInitializer implements CommandLineRunner {
 	
 	@Autowired
 	private SeanceRepository seanceRepository;
-	
+
 	@Autowired
 	private AbsenceRepository absenceRepository;
 
@@ -47,7 +53,10 @@ public class DbInitializer implements CommandLineRunner {
 	private ResponsableScolariteRepository responsableScolariteRepository;
 
 	@Autowired
-	private  RoleRepository roleRepository;
+	private RoleRepository roleRepository;
+
+	public DbInitializer() throws NoSuchAlgorithmException {
+	}
 
 	@Override
 	public void run(String... strings) throws Exception {
@@ -76,7 +85,7 @@ public class DbInitializer implements CommandLineRunner {
 		
 		/// Initialise Etudiants
 		for (int i = 0; i < 14; i++) {
-			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode("password"));
+			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode(password));
 			user.getRoles().add(roleRepository.findByName(RoleName.ROLE_ETUDIANT));
 			Etudiant etudiant = new Etudiant(generateRandString(), generateRandString(), "", user, fil1);
 			gc1.addEtudiant(etudiant);
@@ -89,17 +98,11 @@ public class DbInitializer implements CommandLineRunner {
 			}
 			etudiantRepository.save(etudiant);
 		}
-		
-		Optional<Etudiant> etudiant = etudiantRepository.findById(31L);
-		etudiant.get().setNom("OOOOPPPPP");
-		
-		etudiantRepository.save(etudiant.get());
-		
 		groupeRepository.saveAll(groupes);
 		
 		//////// Initialise Profs
 		for (int i = 0; i < 2; i++) {
-			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode("password"));
+			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode(password));
 			user.getRoles().add(roleRepository.findByName(RoleName.ROLE_PROFESSEUR));
 			Professeur professeur = new Professeur(generateRandString(), generateRandString(), user);
 			Module module = new Module(generateRandString(), fil1);
@@ -122,7 +125,7 @@ public class DbInitializer implements CommandLineRunner {
 		for(int i = 0; i < 5; i++) {
 			Iterator<Etudiant> it = gc1.getEtudiants().iterator();
 			int j = 0;
-			while(j != i) {
+			while (j != i) {
 				j++;
 				it.next();
 			}
@@ -132,7 +135,7 @@ public class DbInitializer implements CommandLineRunner {
 		}
 
 		//Init Respo
-		User respoUser = new User("respo", new BCryptPasswordEncoder().encode("password"));
+		User respoUser = new User("respo", new BCryptPasswordEncoder().encode(password));
 		respoUser.getRoles().add(roleRepository.findByName(RoleName.ROLE_SCOLARITE));
 		ResponsableScolarite responsableScolarite = new ResponsableScolarite("respo", "respo", respoUser);
 		responsableScolariteRepository.save(responsableScolarite);
@@ -145,7 +148,6 @@ public class DbInitializer implements CommandLineRunner {
 		int leftLimit = 97; // letter 'a'
 		int rightLimit = 122; // letter 'z'
 		int targetStringLength = 6;
-		Random random = new Random();
 		StringBuilder buffer = new StringBuilder(targetStringLength);
 		for (int i = 0; i < targetStringLength; i++) {
 			int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));

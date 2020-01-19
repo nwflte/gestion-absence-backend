@@ -1,5 +1,6 @@
 package com.ensa.absence.controller;
 
+import com.ensa.absence.constants.GeneralConstants;
 import com.ensa.absence.domain.entity.AppUtilisateur;
 import com.ensa.absence.payload.JwtLoginRequest;
 import com.ensa.absence.payload.LoginRequest;
@@ -32,20 +33,17 @@ public class LoginController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
-    //@Value("${app.jwtSecret}")
-    private final String jwtSecret = "JWTSuperSecretKey";
-
     @Autowired
     private UserService userService;
 
     @PostMapping("/access-token")
     public ResponseEntity<?> loginWithToken(@RequestBody JwtLoginRequest body) {
-        String username = ((DefaultClaims) Jwts.parser().setSigningKey(jwtSecret).parse(body.getAccessToken()).getBody())
+        String username = ((DefaultClaims) Jwts.parser().setSigningKey(GeneralConstants.jwtSecret).parse(body.getAccessToken()).getBody())
                 .getSubject();
         AppUtilisateur appUtilisateur = userService.getAppUtilisateurByUsername(username);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
+        ArrayList<GrantedAuthority> auth = new ArrayList<>(authentication.getAuthorities());
         String role = auth.get(0).getAuthority();
         return ResponseEntity.ok(new LoginResponse(body.getAccessToken(), username, appUtilisateur.getNom(),
                 appUtilisateur.getPrenom(), role, appUtilisateur.getId()));
@@ -64,7 +62,7 @@ public class LoginController {
 
         String jwt = tokenProvider.generateToken(authentication);
         AppUtilisateur appUtilisateur = userService.getAppUtilisateurByUsername(loginRequest.getUsername());
-        ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>(authentication.getAuthorities());
+        ArrayList<GrantedAuthority> auth = new ArrayList<>(authentication.getAuthorities());
         String role = auth.get(0).getAuthority();
         return ResponseEntity.ok(new LoginResponse(jwt, loginRequest.getUsername(), appUtilisateur.getNom(),
                 appUtilisateur.getPrenom(), role, appUtilisateur.getId()));

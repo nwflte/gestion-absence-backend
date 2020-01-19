@@ -16,8 +16,6 @@ public interface ProfesseurService {
 
 	Professeur saveProfesseur(Professeur professeur);
 
-	Professeur archiverProfesseur(Professeur professeur);
-
 	void ajouterListProfesseursExcel(MultipartFile excelDataFile) throws ExcelFileCellNotKnown, ProfesseursExcelFileHasWrogFormat;
 
 	List<ProfesseurResponse> getProfesseursResponses();

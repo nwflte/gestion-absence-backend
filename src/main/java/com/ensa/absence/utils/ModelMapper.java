@@ -6,14 +6,18 @@ import com.ensa.absence.payload.*;
 
 public class ModelMapper {
 
-	public static FiliereResponse mapFiliereToFiliereResponse(Filiere filiere) {
-		return new FiliereResponse(filiere.getId(), filiere.getNom(), filiere.getDepartement());
-	}
+    private ModelMapper() {
 
-	public static GroupeResponse mapGroupeToGroupeResponse(Groupe groupe) {
-		return new GroupeResponse(groupe.getId(), groupe.getCategorie(), groupe.getSemestreN1(), groupe.getSemestreN2(),
-				groupe.getNumero());
-	}
+    }
+
+    public static FiliereResponse mapFiliereToFiliereResponse(Filiere filiere) {
+        return new FiliereResponse(filiere.getId(), filiere.getNom(), filiere.getDepartement());
+    }
+
+    public static GroupeResponse mapGroupeToGroupeResponse(Groupe groupe) {
+        return new GroupeResponse(groupe.getId(), groupe.getCategorie(), groupe.getSemestreN1(), groupe.getSemestreN2(),
+                groupe.getNumero());
+    }
 
 	public static EtudiantResponse mapEtudiantToEtudiantResponse(Etudiant etudiant) {
 		return new EtudiantResponse(etudiant.getId(), etudiant.getNom(), etudiant.getPrenom(), etudiant.getImagePath(),

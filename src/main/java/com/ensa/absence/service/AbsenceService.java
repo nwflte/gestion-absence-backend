@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface AbsenceService {
 
-	List<AbsenceResponse> getAbsencesResponsesOfSeance(Long seanceId);
+    List<AbsenceResponse> getAbsencesResponsesOfSeance(Long seanceId);
 
-	void modifyAbsencesOfSeace(Long seanceId, List<NewOrModifyAbsenceRequest> request);
+    void modifyAbsencesOfSeance(Long seanceId, List<NewOrModifyAbsenceRequest> request);
 
 }

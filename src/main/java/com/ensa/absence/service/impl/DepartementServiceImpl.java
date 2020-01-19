@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DepartementServiceImpl implements DepartementService {
@@ -18,18 +17,6 @@ public class DepartementServiceImpl implements DepartementService {
 	@Override
 	public Departement saveDepartement(Departement departement) {
 		return departementRepository.save(departement);
-	}
-
-	@Override
-	public Optional<Departement> getDepartementById(Departement departement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Departement archiverDepartement(Departement departement) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

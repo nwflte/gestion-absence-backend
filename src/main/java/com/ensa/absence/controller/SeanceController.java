@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -18,11 +19,6 @@ public class SeanceController {
 	
 	@Autowired
 	private SeanceService seanceService;
-	
-	/*@GetMapping("/professeur/{profId}")
-	public List<SeanceResponse> getSeancesOfProf(@PathVariable(value = "profId", required = true) Long profId){
-		return seanceService.getSeancesOfProf(profId);
-	}*/
 
 	@GetMapping("/professeur/{profId}")
 	public List<SeanceResponse> getSeancesOfProfByDate(@PathVariable(value = "profId", required = true) Long profId,
@@ -33,7 +29,7 @@ public class SeanceController {
 			return  seanceService.getSeancesOfProfByDate(profId, new Date());
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return null;
+			return Collections.emptyList();
 		}
 	}
 

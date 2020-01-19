@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,17 +41,6 @@ public class FiliereServiceImpl implements FiliereService {
 		Groupe newGroupeCours = new Groupe(filiere, GroupeCategorie.COURS,0, Calendar.getInstance());
 		groupeRepository.save(newGroupeCours);
 		return ModelMapper.mapFiliereToFiliereResponse(filiere);
-	}
-
-	@Override
-	public Optional<Filiere> getFiliereById(Long id) {
-		return filiereRepository.findById(id);
-	}
-
-	@Override
-	public Filiere archiverFiliere(Filiere filiere) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
