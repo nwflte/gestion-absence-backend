@@ -1,8 +1,5 @@
 package com.ensa.absence.controller;
 
-import com.ensa.absence.domain.entity.Professeur;
-import com.ensa.absence.domain.entity.User;
-import com.ensa.absence.domain.enums.RoleName;
 import com.ensa.absence.exception.ExcelFileCellNotKnown;
 import com.ensa.absence.exception.ProfesseursExcelFileHasWrogFormat;
 import com.ensa.absence.payload.CreateProfesseurRequest;
@@ -12,7 +9,7 @@ import com.ensa.absence.service.ProfesseurService;
 import com.ensa.absence.utils.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +27,7 @@ public class ProfesseurController {
 
 
     @PostMapping("/import")
+    @PreAuthorize("hasRole('SCOLARITE')")
     public ResponseEntity<?> addListProfesseursFromExcel(@RequestParam("file") MultipartFile excelDataFile) {
 
         try {
@@ -41,7 +39,7 @@ public class ProfesseurController {
             professeursExcelFileHasWrogFormat.printStackTrace();
             return ResponseEntity.ok("Erreur s'est prevenu, possible que le fichier n'a pas le bon format");
         }
-        return ResponseEntity.ok(new String("SUCCESS"));
+        return ResponseEntity.ok("SUCCESS");
     }
 
     @GetMapping("/list")
@@ -55,12 +53,10 @@ public class ProfesseurController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SCOLARITE')")
     public ProfesseurResponse addProfesseur(@RequestBody CreateProfesseurRequest request) {
-        User user = new User(request.getCin(), new BCryptPasswordEncoder().encode(request.getCode()));
-        user.getRoles().add(roleRepository.findByName(RoleName.ROLE_PROFESSEUR));
-        Professeur professeur = new Professeur(request.getNom(), request.getPrenom(), user);
-        professeurService.saveProfesseur(professeur);
-        return ModelMapper.mapProfesseurToProfesseurResponse(professeur);
+        return professeurService.saveProfesseur(request);
+
     }
 
 }

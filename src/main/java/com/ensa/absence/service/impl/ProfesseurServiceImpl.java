@@ -5,11 +5,13 @@ import com.ensa.absence.domain.entity.User;
 import com.ensa.absence.domain.enums.RoleName;
 import com.ensa.absence.exception.ExcelFileCellNotKnown;
 import com.ensa.absence.exception.ProfesseursExcelFileHasWrogFormat;
+import com.ensa.absence.payload.CreateProfesseurRequest;
 import com.ensa.absence.payload.ProfesseurResponse;
 import com.ensa.absence.repository.ProfesseurRepository;
 import com.ensa.absence.repository.RoleRepository;
 import com.ensa.absence.repository.UserRepository;
 import com.ensa.absence.service.ProfesseurService;
+import com.ensa.absence.service.UserService;
 import com.ensa.absence.utils.ModelMapper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
@@ -29,8 +32,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ProfesseurServiceImpl implements ProfesseurService{
-	
+public class ProfesseurServiceImpl implements ProfesseurService {
+
 	@Autowired
 	private ProfesseurRepository professeurRepository;
 
@@ -39,6 +42,9 @@ public class ProfesseurServiceImpl implements ProfesseurService{
 
 	@Autowired
 	private RoleRepository roleRepository;
+
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public Professeur saveProfesseur(Professeur professeur) {
@@ -59,6 +65,7 @@ public class ProfesseurServiceImpl implements ProfesseurService{
 	}
 
 	@Override
+	@Transactional
 	public void ajouterListProfesseursExcel(MultipartFile excelDataFile) throws ExcelFileCellNotKnown, ProfesseursExcelFileHasWrogFormat {
 		try {
 			Workbook workbook = new XSSFWorkbook(excelDataFile.getInputStream());
@@ -117,15 +124,25 @@ public class ProfesseurServiceImpl implements ProfesseurService{
 	public List<ProfesseurResponse> getProfesseursResponses() {
 		return professeurRepository.findAll().stream().map(p -> ModelMapper.mapProfesseurToProfesseurResponse(p))
 				.collect(Collectors.toList())
-;	}
+				;
+	}
+
+	@Override
+	@Transactional
+	public ProfesseurResponse saveProfesseur(CreateProfesseurRequest request) {
+		User user = userService.createProfesseurUser(request.getCin(), request.getCode());
+		Professeur professeur = new Professeur(request.getNom(), request.getPrenom(), user);
+		professeurRepository.save(professeur);
+		return ModelMapper.mapProfesseurToProfesseurResponse(professeur);
+	}
 
 	private boolean isFileHasRightFormat(Row currentRow) {
 		Iterator<Cell> cellIterator = currentRow.iterator();
 		while (cellIterator.hasNext()) {
 			Cell currentCell = cellIterator.next();
-			switch (currentCell.getColumnIndex()){
+			switch (currentCell.getColumnIndex()) {
 				case 0:
-					if(!currentCell.getStringCellValue().equalsIgnoreCase("CIN"))
+					if (!currentCell.getStringCellValue().equalsIgnoreCase("CIN"))
 						return false;
 					break;
 				case 1:

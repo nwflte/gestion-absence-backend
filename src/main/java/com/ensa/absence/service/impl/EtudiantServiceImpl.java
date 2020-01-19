@@ -4,13 +4,17 @@ import com.ensa.absence.domain.entity.Etudiant;
 import com.ensa.absence.domain.entity.Filiere;
 import com.ensa.absence.domain.entity.Groupe;
 import com.ensa.absence.domain.entity.User;
+import com.ensa.absence.domain.enums.GroupeCategorie;
 import com.ensa.absence.domain.enums.RoleName;
 import com.ensa.absence.exception.EtudiantsExcelFileHasWrogFormat;
 import com.ensa.absence.exception.ExcelFileCellNotKnown;
 import com.ensa.absence.payload.AbsenceResponse;
+import com.ensa.absence.payload.CreateEtudiantRequest;
+import com.ensa.absence.payload.EtudiantResponse;
 import com.ensa.absence.repository.*;
 import com.ensa.absence.service.EtudiantService;
 import com.ensa.absence.service.GroupeService;
+import com.ensa.absence.service.UserService;
 import com.ensa.absence.utils.ModelMapper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -22,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
@@ -41,32 +46,47 @@ public class EtudiantServiceImpl implements EtudiantService {
 	@Autowired
     private GroupeRepository groupeRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 
-    @Autowired
-    private FiliereRepository filiereRepository;
+	@Autowired
+	private FiliereRepository filiereRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Autowired
-    private AbsenceRepository absenceRepository;
+	@Autowired
+	private UserService userService;
 
-    @Override
-    public Optional<Etudiant> getEtudiantById(Long id) {
-        return etudiantRepository.findById(id);
-    }
+	@Autowired
+	private AbsenceRepository absenceRepository;
 
-    @Override
-    public boolean addEtudiantToGroupe(Etudiant etudiant, Groupe groupe) {
-        groupe.addEtudiant(etudiant);
-        return true;
+	@Override
+	public Optional<Etudiant> getEtudiantById(Long id) {
+		return etudiantRepository.findById(id);
+	}
+
+	@Override
+	public void addEtudiantToGroupe(Etudiant etudiant, Groupe groupe) {
+		groupe.addEtudiant(etudiant);
+		groupeRepository.save(groupe);
+		addEtudiantToFiliere(etudiant, groupe.getFiliere());
 	}
 
 	@Override
 	public Etudiant saveEtudiant(Etudiant etudiant) {
 		return etudiantRepository.save(etudiant);
+	}
+
+	@Override
+	@Transactional
+	public EtudiantResponse saveEtudiant(CreateEtudiantRequest request) {
+		User user = userService.createEtudiantUser(request.getCne(), request.getApogee());
+		Etudiant etudiant = new Etudiant(request.getNom(), request.getPrenom(), "", user);
+		addEtudiantToFiliere(etudiant, filiereRepository.findById(request.getFiliere()).get());
+		addEtudiantToGroupe(etudiant, groupeRepository.findById(request.getGroupe()).get());
+		etudiantRepository.save(etudiant);
+		return ModelMapper.mapEtudiantToEtudiantResponse(etudiant);
 	}
 
 	@Override
@@ -76,17 +96,18 @@ public class EtudiantServiceImpl implements EtudiantService {
 		return etudiant;
 	}
 
+	@Transactional
 	@Override
 	public void addEtudiantToFiliere(Etudiant etudiant, Filiere filiere) {
-		if (etudiant.getFiliere() != null && etudiant.getFiliere().equals(filiere))
-			return;
 		etudiant.setFiliere(filiere);
-		/*Groupe groupeCours = new Groupe(filiere, GroupeCategorie.COURS, 0, Calendar.getInstance());
-		groupeCours.addEtudiant(etudiant);
-		groupeService.saveGroupe(groupeCours);*/
 		etudiantRepository.save(etudiant);
+		groupeRepository.findByFiliereAndCategorie(filiere, GroupeCategorie.COURS).forEach(groupe -> {
+			groupe.addEtudiant(etudiant);
+			groupeRepository.save(groupe);
+		});
 	}
 
+	@Transactional
 	@Override
 	public void ajouterListEtudiantsExcel(String filiereOrGroupe, Long id, MultipartFile excelDataFile)
 			throws ExcelFileCellNotKnown, EtudiantsExcelFileHasWrogFormat {
@@ -96,7 +117,7 @@ public class EtudiantServiceImpl implements EtudiantService {
 			Iterator<Row> rowIterator = datatypeSheet.iterator();
 			while (rowIterator.hasNext()) {
 				Row currentRow = rowIterator.next();
-				if(currentRow.getRowNum() == 0){
+				if (currentRow.getRowNum() == 0) {
 					if(!isFileHasRightFormat(currentRow)) throw new EtudiantsExcelFileHasWrogFormat();
 					continue;
 				}
@@ -137,15 +158,15 @@ public class EtudiantServiceImpl implements EtudiantService {
 				etudiantRepository.save(etudiant);
 				if(filiereOrGroupe.equalsIgnoreCase("filiere"))
 					addEtudiantToFiliere(etudiant, filiereRepository.findById(id).get());
-                else
-                    addEtudiantToGroupe(etudiant, groupeRepository.findById(id).get());
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+				else
+					addEtudiantToGroupe(etudiant, groupeRepository.findById(id).get());
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
     @Override
     public List<AbsenceResponse> getAbsences(Long id) {
