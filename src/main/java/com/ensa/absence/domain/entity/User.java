@@ -1,18 +1,15 @@
 package com.ensa.absence.domain.entity;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.NaturalId;
-
 import com.ensa.absence.domain.audit.ResponsableDateAudit;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,14 +26,21 @@ public class User extends ResponsableDateAudit {
 	
 	@Column(nullable = false)
 	private String password;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+	private Set<Role> roles = new HashSet<>();
 
 	public User(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
+	}
+
+	public User(String username, String password, Role role) {
+		super();
+		this.username = username;
+		this.password = password;
+		roles.add(role);
 	}
 
 	@Override

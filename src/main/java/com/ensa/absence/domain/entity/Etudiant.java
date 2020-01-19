@@ -1,34 +1,22 @@
 package com.ensa.absence.domain.entity;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
 import com.ensa.absence.domain.audit.ResponsableDateAudit;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Class representant un etudiant
- *
  */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Etudiant extends ResponsableDateAudit implements AppUtilisateur{
+public class Etudiant extends ResponsableDateAudit implements AppUtilisateur {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -62,7 +50,7 @@ public class Etudiant extends ResponsableDateAudit implements AppUtilisateur{
 	private Set<Groupe> groupes = new HashSet<>();
 	
 	private boolean archived;
-	
+
 	public Etudiant(String nom, String prenom, String imagePath, User user, Filiere filiere) {
 		super();
 		this.nom = nom;
@@ -70,6 +58,14 @@ public class Etudiant extends ResponsableDateAudit implements AppUtilisateur{
 		this.imagePath = imagePath;
 		this.user = user;
 		this.filiere = filiere;
+	}
+
+	public Etudiant(String nom, String prenom, String imagePath, User user) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.imagePath = imagePath;
+		this.user = user;
 	}
 
 	@Override
