@@ -42,6 +42,10 @@ public class ModuleServiceImpl implements ModuleService {
 	public ModuleResponse saveModule(CreateModuleRequest request) {
 		Module module = new Module(request.getNom(), filiereRepository.findById(request.getFiliereId()).get());
 		moduleRepository.save(module);
+		professeurRepository.findAllById(request.getProfesseurs()).forEach(p -> {
+			p.addModule(module);
+			professeurRepository.save(p);
+		});
 		return ModelMapper.mapModuleToModuleResponse(module);
 	}
 
