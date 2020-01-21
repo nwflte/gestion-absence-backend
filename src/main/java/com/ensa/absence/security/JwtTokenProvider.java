@@ -19,19 +19,19 @@ public class JwtTokenProvider {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + GeneralConstants.jwtExpirationInMs);
+        Date expiryDate = new Date(now.getTime() + GeneralConstants.JWT_EXPIRATION_IN_MS);
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, GeneralConstants.jwtSecret)
+                .signWith(SignatureAlgorithm.HS512, GeneralConstants.JWT_SECRET)
                 .compact();
     }
 
     public Long getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(GeneralConstants.jwtSecret)
+                .setSigningKey(GeneralConstants.JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -40,7 +40,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(GeneralConstants.jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(GeneralConstants.JWT_SECRET).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
             logger.error("Invalid JWT signature");
@@ -58,7 +58,7 @@ public class JwtTokenProvider {
 
     public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(GeneralConstants.jwtSecret)
+                .setSigningKey(GeneralConstants.JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
 

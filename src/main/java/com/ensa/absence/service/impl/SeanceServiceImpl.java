@@ -33,10 +33,10 @@ public class SeanceServiceImpl implements SeanceService {
 
 	@Override
 	public List<SeanceResponse> getSeancesOfProf(Long profId) {
-		List<Seance> seances = seanceRepository.findByProfesseur_Id(profId);
-		return seances.stream().map(seance -> ModelMapper.mapSeanceToSeanceResponse(seance))
-				.collect(Collectors.toList());
-	}
+        List<Seance> seances = seanceRepository.findByProfesseur_Id(profId);
+        return seances.stream().map(ModelMapper::mapSeanceToSeanceResponse)
+                .collect(Collectors.toList());
+    }
 
 	@Override
 	public SeanceResponse saveSeanceByProf(CreateSeanceRequest request) {
@@ -55,9 +55,9 @@ public class SeanceServiceImpl implements SeanceService {
 
 	@Override
 	public List<SeanceResponse> getSeancesOfProfByDate(Long profId, Date date) {
-		List<Seance> seances = seanceRepository.findByProfesseur_IdAndDate(profId, date);
-		return seances.stream().map(seance -> ModelMapper.mapSeanceToSeanceResponse(seance))
-				.collect(Collectors.toList());
-	}
+        List<Seance> seances = seanceRepository.findByProfesseur_IdAndDate(profId, date);
+        return seances.stream().map(ModelMapper::mapSeanceToSeanceResponse)
+                .collect(Collectors.toList());
+    }
 
 }

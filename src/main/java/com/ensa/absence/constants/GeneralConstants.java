@@ -2,9 +2,9 @@ package com.ensa.absence.constants;
 
 public class GeneralConstants {
 
-    public static final String jwtSecret = "JWTSuperSecretKey";
-    public static final int jwtExpirationInMs = 604800000;
-    public static final String tokenType = "Bearer";
+    public static final String JWT_SECRET = "JWTSuperSecretKey";
+    public static final int JWT_EXPIRATION_IN_MS = 604800000;
+    public static final String TOKEN_TYPE = "Bearer";
 
     private GeneralConstants() {
 

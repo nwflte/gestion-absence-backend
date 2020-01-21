@@ -55,7 +55,7 @@ public class FiliereServiceImpl implements FiliereService {
 
 	@Override
 	public List<FiliereResponse> getAllFilieresResponse() {
-		return filiereRepository.findAll().stream().map(filiere -> ModelMapper.mapFiliereToFiliereResponse(filiere))
+		return filiereRepository.findAll().stream().map(ModelMapper::mapFiliereToFiliereResponse)
 				.collect(Collectors.toList());
 	}
 

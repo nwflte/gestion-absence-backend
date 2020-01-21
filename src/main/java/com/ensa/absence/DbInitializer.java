@@ -21,15 +21,8 @@ import java.util.*;
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
 public class DbInitializer implements CommandLineRunner {
 
-	private final static String password = "password";
-
-	private Random random = SecureRandom.getInstanceStrong();
-
 	@Autowired
 	private FiliereRepository filiereRepository;
-
-	@Autowired
-	private DepartementRepository departementRepository;
 
 	@Autowired
 	private GroupeRepository groupeRepository;
@@ -54,6 +47,10 @@ public class DbInitializer implements CommandLineRunner {
 
 	@Autowired
 	private RoleRepository roleRepository;
+
+	private final static String PASSWORD = "password";
+
+	private Random random = SecureRandom.getInstanceStrong();
 
 	public DbInitializer() throws NoSuchAlgorithmException {
 	}
@@ -85,7 +82,7 @@ public class DbInitializer implements CommandLineRunner {
 		
 		/// Initialise Etudiants
 		for (int i = 0; i < 14; i++) {
-			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode(password));
+			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode(PASSWORD));
 			user.getRoles().add(roleRepository.findByName(RoleName.ROLE_ETUDIANT));
 			Etudiant etudiant = new Etudiant(generateRandString(), generateRandString(), "", user, fil1);
 			gc1.addEtudiant(etudiant);
@@ -102,7 +99,7 @@ public class DbInitializer implements CommandLineRunner {
 		
 		//////// Initialise Profs
 		for (int i = 0; i < 2; i++) {
-			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode(password));
+			User user = new User(generateRandString(), new BCryptPasswordEncoder().encode(PASSWORD));
 			user.getRoles().add(roleRepository.findByName(RoleName.ROLE_PROFESSEUR));
 			Professeur professeur = new Professeur(generateRandString(), generateRandString(), user);
 			Module module = new Module(generateRandString(), fil1);
@@ -135,7 +132,7 @@ public class DbInitializer implements CommandLineRunner {
 		}
 
 		//Init Respo
-		User respoUser = new User("respo", new BCryptPasswordEncoder().encode(password));
+		User respoUser = new User("respo", new BCryptPasswordEncoder().encode(PASSWORD));
 		respoUser.getRoles().add(roleRepository.findByName(RoleName.ROLE_SCOLARITE));
 		ResponsableScolarite responsableScolarite = new ResponsableScolarite("respo", "respo", respoUser);
 		responsableScolariteRepository.save(responsableScolarite);

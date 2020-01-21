@@ -4,7 +4,6 @@ import com.ensa.absence.exception.ExcelFileCellNotKnown;
 import com.ensa.absence.exception.ProfesseursExcelFileHasWrogFormat;
 import com.ensa.absence.payload.CreateProfesseurRequest;
 import com.ensa.absence.payload.ProfesseurResponse;
-import com.ensa.absence.repository.RoleRepository;
 import com.ensa.absence.service.ProfesseurService;
 import com.ensa.absence.utils.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,9 @@ public class ProfesseurController {
     @Autowired
     private ProfesseurService professeurService;
 
-    @Autowired
-    private RoleRepository roleRepository;
-
-
     @PostMapping("/import")
     @PreAuthorize("hasRole('SCOLARITE')")
-    public ResponseEntity<?> addListProfesseursFromExcel(@RequestParam("file") MultipartFile excelDataFile) {
+    public ResponseEntity<String> addListProfesseursFromExcel(@RequestParam("file") MultipartFile excelDataFile) {
 
         try {
             professeurService.ajouterListProfesseursExcel(excelDataFile);

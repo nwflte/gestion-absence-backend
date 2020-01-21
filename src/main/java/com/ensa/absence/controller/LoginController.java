@@ -37,8 +37,8 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping("/access-token")
-    public ResponseEntity<?> loginWithToken(@RequestBody JwtLoginRequest body) {
-        String username = ((DefaultClaims) Jwts.parser().setSigningKey(GeneralConstants.jwtSecret).parse(body.getAccessToken()).getBody())
+    public ResponseEntity<LoginResponse> loginWithToken(@RequestBody JwtLoginRequest body) {
+        String username = ((DefaultClaims) Jwts.parser().setSigningKey(GeneralConstants.JWT_SECRET).parse(body.getAccessToken()).getBody())
                 .getSubject();
         AppUtilisateur appUtilisateur = userService.getAppUtilisateurByUsername(username);
 
@@ -50,7 +50,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),

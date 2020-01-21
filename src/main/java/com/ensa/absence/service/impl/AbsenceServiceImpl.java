@@ -20,7 +20,7 @@ public class AbsenceServiceImpl implements AbsenceService {
 
 	@Override
 	public List<AbsenceResponse> getAbsencesResponsesOfSeance(Long seanceId) {
-		return absenceRepository.findBySeance_Id(seanceId).stream().map(a -> ModelMapper.mapAbsenceToAbsenceResponse(a))
+		return absenceRepository.findBySeance_Id(seanceId).stream().map(ModelMapper::mapAbsenceToAbsenceResponse)
 				.collect(Collectors.toList());
 	}
 

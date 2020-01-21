@@ -38,15 +38,15 @@ public class GroupeServiceImpl implements GroupeService {
 	public List<GroupeResponse> getGroupeResponsesByFiliere(Long filiereId) {
 		Filiere filiere = filiereRepository.findById(filiereId).get();
 		return groupeRepository.findByFiliere(filiere).stream()
-				.map(groupe -> ModelMapper.mapGroupeToGroupeResponse(groupe)).collect(Collectors.toList());
+                .map(ModelMapper::mapGroupeToGroupeResponse).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<EtudiantResponse> getEtudiantsByGroupe(Long groupeId) {
-		Groupe groupe = groupeRepository.findById(groupeId).get();
-		return groupe.getEtudiants().stream().map(etudiant -> ModelMapper.mapEtudiantToEtudiantResponse(etudiant))
-				.collect(Collectors.toList());
-	}
+        Groupe groupe = groupeRepository.findById(groupeId).get();
+        return groupe.getEtudiants().stream().map(ModelMapper::mapEtudiantToEtudiantResponse)
+                .collect(Collectors.toList());
+    }
 
 	@Override
 	public Groupe saveGroupe(Groupe groupeCours) {
@@ -55,8 +55,8 @@ public class GroupeServiceImpl implements GroupeService {
 
 	@Override
 	public List<GroupeResponse> getGroupesOfFiliere(Long filierefId) {
-		return groupeRepository.findByFiliere_Id(filierefId).stream().map(g -> ModelMapper.mapGroupeToGroupeResponse(g))
-				.collect(Collectors.toList());
-	}
+        return groupeRepository.findByFiliere_Id(filierefId).stream().map(ModelMapper::mapGroupeToGroupeResponse)
+                .collect(Collectors.toList());
+    }
 
 }

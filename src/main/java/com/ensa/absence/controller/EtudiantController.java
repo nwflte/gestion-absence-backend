@@ -5,8 +5,6 @@ import com.ensa.absence.exception.ExcelFileCellNotKnown;
 import com.ensa.absence.payload.AbsenceResponse;
 import com.ensa.absence.payload.CreateEtudiantRequest;
 import com.ensa.absence.payload.EtudiantResponse;
-import com.ensa.absence.repository.FiliereRepository;
-import com.ensa.absence.repository.GroupeRepository;
 import com.ensa.absence.service.EtudiantService;
 import com.ensa.absence.utils.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +23,9 @@ public class EtudiantController {
     @Autowired
     private EtudiantService etudiantService;
 
-    @Autowired
-    private FiliereRepository filiereRepository;
-
-    @Autowired
-    private GroupeRepository groupeRepository;
-
     @PostMapping(value = "/import/{type}/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SCOLARITE')")
-    public ResponseEntity<?> addListEtudiantFromExcel(@PathVariable(value = "type") String type, @PathVariable(value = "id") Long id, @RequestParam("file") MultipartFile excelDataFile) {
+    public ResponseEntity<String> addListEtudiantFromExcel(@PathVariable(value = "type") String type, @PathVariable(value = "id") Long id, @RequestParam("file") MultipartFile excelDataFile) {
         try {
             etudiantService.ajouterListEtudiantsExcel(type.toUpperCase(), id, excelDataFile);
         } catch (ExcelFileCellNotKnown excelFileCellNotKnown) {

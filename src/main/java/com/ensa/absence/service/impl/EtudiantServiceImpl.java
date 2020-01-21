@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -161,8 +160,6 @@ public class EtudiantServiceImpl implements EtudiantService {
 				else
 					addEtudiantToGroupe(etudiant, groupeRepository.findById(id).get());
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -170,8 +167,8 @@ public class EtudiantServiceImpl implements EtudiantService {
 
     @Override
     public List<AbsenceResponse> getAbsences(Long id) {
-        return absenceRepository.findByEtudiant_Id(id).stream().map(a -> ModelMapper.mapAbsenceToAbsenceResponse(a))
-                .collect(Collectors.toList());
+        return absenceRepository.findByEtudiant_Id(id).stream().map(ModelMapper::mapAbsenceToAbsenceResponse)
+				.collect(Collectors.toList());
     }
 
     private boolean isFileHasRightFormat(Row currentRow) {

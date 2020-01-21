@@ -112,9 +112,8 @@ public class ProfesseurServiceImpl implements ProfesseurService {
 
 	@Override
 	public List<ProfesseurResponse> getProfesseursResponses() {
-		return professeurRepository.findAll().stream().map(p -> ModelMapper.mapProfesseurToProfesseurResponse(p))
-				.collect(Collectors.toList())
-				;
+		return professeurRepository.findAll().stream().map(ModelMapper::mapProfesseurToProfesseurResponse)
+				.collect(Collectors.toList());
 	}
 
 	@Override

@@ -29,12 +29,12 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public List<ModuleResponse> getModulesOfProf(Long profId) {
 		return professeurRepository.findById(profId).get().getModules().stream()
-				.map(m -> ModelMapper.mapModuleToModuleResponse(m)).collect(Collectors.toList());
+				.map(ModelMapper::mapModuleToModuleResponse).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<ModuleResponse> getModuleResponses() {
-		return moduleRepository.findAll().stream().map(m -> ModelMapper.mapModuleToModuleResponse(m))
+		return moduleRepository.findAll().stream().map(ModelMapper::mapModuleToModuleResponse)
 				.collect(Collectors.toList());
 	}
 
